@@ -19,7 +19,7 @@ public class userPage extends JFrame {
         
         JButton checkButton = new JButton("進度查詢");
     	checkButton.setPreferredSize(new Dimension(150, 50));
-    	checkButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	checkButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 0; //左上
         gbc.gridy = 0;
         add(checkButton, gbc);
