@@ -11,6 +11,8 @@ public class startPage extends JFrame{
     	//設定成絕對定位
     	setLayout(new GridBagLayout()); 
     	
+    	getContentPane().setBackground(new Color(250, 240, 230));
+    	
     	GridBagConstraints gbc = new GridBagConstraints();
     	//設定上下左右間距
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -22,17 +24,13 @@ public class startPage extends JFrame{
         gbc.weighty = 1.0;
     	
     	JButton userButton = new JButton("User Page");
-    	//設定初始大小和字體
-    	userButton.setPreferredSize(new Dimension(150, 50));
-    	userButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	styleMilkTeaButton(userButton);
     	gbc.gridx = 0; //第一個
         gbc.gridy = 0;
         add(userButton, gbc);
         
     	JButton maintenanceButton = new JButton("Maintenance Page");
-    	//設定初始大小和字體
-    	maintenanceButton.setPreferredSize(new Dimension(150, 50));
-    	maintenanceButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	styleMilkTeaButton(maintenanceButton);
     	gbc.gridx = 1; //第一個
         gbc.gridy = 0;
         add(maintenanceButton, gbc);
@@ -44,6 +42,16 @@ public class startPage extends JFrame{
     	setVisible(true);
     	
     	
+    }
+    
+    private void styleMilkTeaButton(JButton button) {
+    	button.setPreferredSize(new Dimension(150, 50));
+    	button.setFont(new Font("Noto Sans TC", Font.BOLD, 16));
+        button.setBackground(new Color(210, 180, 140));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(new Color(190, 140, 100), 2));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
 }
