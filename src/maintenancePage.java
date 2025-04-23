@@ -3,9 +3,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.CardLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class maintenancePage extends JFrame{
 	public maintenancePage() {
@@ -49,10 +51,15 @@ public class maintenancePage extends JFrame{
         gbc.gridy = -1;
         add(qaButton, gbc);
         
+        //設定維修員介面的切換
+        CardLayout cardLayout = new CardLayout();
+        JPanel mainPanel = new JPanel(cardLayout);
+        mainPanel.add(new QASettingPanel(), "QASettingPanel");
+        
         checkButton.addActionListener(e -> new scheduleDisplay());
         reportButton.addActionListener(e -> new maintenanceAccept());
         mapButton.addActionListener(e -> new priorityDetermine());
-        qaButton.addActionListener(e -> new QA());
+        qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QASettingPanel"));
         
         setLocationRelativeTo(null);
     	setVisible(true);
