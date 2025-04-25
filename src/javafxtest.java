@@ -1,9 +1,9 @@
-
 import javafx.application.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+//直接運行，OK就是OK，其餘皆是不OK
 public class javafxtest extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
