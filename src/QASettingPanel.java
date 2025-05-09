@@ -11,10 +11,11 @@ import javafx.application.*;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.embed.swing.JFXPanel;
 
 public class QASettingPanel extends JPanel{
 	private JLabel title;
-	Button b;
+	private Button b;
 	
 	
 	
@@ -25,6 +26,11 @@ public class QASettingPanel extends JPanel{
 		title = new JLabel("Q&A");
 		title.setFont(new Font("Microsoft JhengHei",Font.BOLD,40));
 		add(title, BorderLayout.NORTH);
+		//
+		JFXPanel javafxPanel = new JFXPanel();
+		
+		
+		
 		//
 		JTextArea QADisplay = new JTextArea();
 		JScrollPane QAScrollPane = new JScrollPane(QADisplay);
