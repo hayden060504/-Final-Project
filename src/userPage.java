@@ -24,6 +24,7 @@ public class userPage extends JFrame {
         gbc.gridy = 0;
         add(checkButton, gbc);
         
+        
         JButton reportButton = new JButton("回報");
     	reportButton.setPreferredSize(new Dimension(150, 50));
     	reportButton.setFont(new Font("Arial", Font.BOLD, 15));
