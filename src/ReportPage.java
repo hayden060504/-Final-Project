@@ -11,9 +11,15 @@ import java.awt.GridLayout;
 import java.io.File;
 
 public class ReportPage extends JPanel{
+	String server = "jdbc:mysql://140.119.19.73:3315/";
+	String database = "113306020";
+	String username = "113306020";
+	String password = "pzwgt";
+	String url = server + database + "?useSSL=false";
+	
 	private JPanel leftPanel, rightPanel;
-	private JComboBox<String> bigPlace; //報修類型的大範圍
-	private JComboBox<String> type; //報修類型
+	private JComboBox<String> locationCombo; //報修類型的大範圍
+	private JComboBox<String> categoryCombo; //報修類型
 	private JTextArea describe; //描述輸入
 	private JTextField place; //地點輸入
 	private JButton summitBtn; //送出按鈕
@@ -31,32 +37,32 @@ public class ReportPage extends JPanel{
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(1,4,0,0));
 		//大區域決定
-		bigPlace = new JComboBox<String>();
-		bigPlace.addItem("請選擇");
-		bigPlace.addItem("山下校園");
-		bigPlace.addItem("山上校園");
-		bigPlace.addItem("山上宿舍");
-		bigPlace.addItem("山下宿舍");
-		leftPanel.add(bigPlace);
+        locationCombo = new JComboBox<String>();
+        locationCombo.addItem("請選擇");
+        locationCombo.addItem("山下校園");
+        locationCombo.addItem("山上校園");
+        locationCombo.addItem("山上宿舍");
+		locationCombo.addItem("山下宿舍");
+		leftPanel.add(locationCombo);
 		//報修類型
-		type = new JComboBox<String>();
-		type.addItem("請選擇");
-		type.addItem("座椅損壞");
-		type.addItem("水溝蓋鬆動或遺失");
-		type.addItem("水龍頭損壞");
-		type.addItem("插座/電燈不通電");
-		type.addItem("門損壞");
-		type.addItem("窗戶破裂");
-		type.addItem("電梯異常");
-		type.addItem("感應門異常、損壞");
-		type.addItem("飲水機異常");
-		type.addItem("桌椅損壞");
-		type.addItem("網路中斷");
-		type.addItem("垃圾桶破損");
-		type.addItem("冷氣/電風扇故障");
-		type.addItem("洗衣機/烘衣機無法運作");
-		type.addItem("燈具不亮");
-		leftPanel.add(type);
+		categoryCombo = new JComboBox<String>();
+		categoryCombo.addItem("請選擇");
+		categoryCombo.addItem("座椅損壞");
+		categoryCombo.addItem("水溝蓋鬆動或遺失");
+		categoryCombo.addItem("水龍頭損壞");
+		categoryCombo.addItem("插座/電燈不通電");
+		categoryCombo.addItem("門損壞");
+		categoryCombo.addItem("窗戶破裂");
+		categoryCombo.addItem("電梯異常");
+		categoryCombo.addItem("感應門異常、損壞");
+		categoryCombo.addItem("飲水機異常");
+		categoryCombo.addItem("桌椅損壞");
+		categoryCombo.addItem("網路中斷");
+		categoryCombo.addItem("垃圾桶破損");
+		categoryCombo.addItem("冷氣/電風扇故障");
+		categoryCombo.addItem("洗衣機/烘衣機無法運作");
+		categoryCombo.addItem("燈具不亮");
+		leftPanel.add(categoryCombo);
 		//地點描述
 		place = new JTextField();
 		
@@ -69,4 +75,20 @@ public class ReportPage extends JPanel{
 		add(leftPanel,BorderLayout.WEST);
 	}
 	
+	public void ReportForm() {
+		setTitle("報修系統");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        categoryCombo = new JComboBox<>();
+        locationCombo = new JComboBox<>();
+        descriptionArea = new JTextArea(5, 20);
+        submitButton = new JButton("送出報修");
+
+        // 抓資料填進下拉選單
+        loadComboBox(categoryCombo, "categories");
+        loadComboBox(locationCombo, "locations");
+
+	}
 }
