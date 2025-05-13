@@ -1,12 +1,18 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.CardLayout;
 
-public class userPage extends JFrame {
-	public userPage() {
-		//基本設定跟user page 一樣
-    	setTitle("User Page");
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class MaintenancePage extends JFrame{
+	public MaintenancePage() {
+		
+		setTitle("Maintenance Page");
     	setSize(400, 300);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setLayout(new GridBagLayout());
@@ -17,50 +23,47 @@ public class userPage extends JFrame {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         
-        JButton checkButton = new JButton("進度查詢");
+        JButton checkButton = new JButton("排程排序");
     	checkButton.setPreferredSize(new Dimension(150, 50));
-    	checkButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
+    	checkButton.setFont(new Font("Arial", Font.BOLD, 15));
     	gbc.gridx = 0; //左上
         gbc.gridy = 0;
         add(checkButton, gbc);
         
-        
-        JButton reportButton = new JButton("回報");
+        JButton reportButton = new JButton("");
     	reportButton.setPreferredSize(new Dimension(150, 50));
     	reportButton.setFont(new Font("Arial", Font.BOLD, 15));
     	gbc.gridx = 1; //右上
         gbc.gridy = 0;
         add(reportButton, gbc);
         
-        JButton mapButton = new JButton("地圖");
+        JButton mapButton = new JButton("Q&A");
     	mapButton.setPreferredSize(new Dimension(150, 50));
     	mapButton.setFont(new Font("Arial", Font.BOLD, 15));
     	gbc.gridx = 0; //左下
         gbc.gridy = -1;
         add(mapButton, gbc);
         
-        JButton qaButton = new JButton("Q&A");
+        JButton qaButton = new JButton("維修排序");
     	qaButton.setPreferredSize(new Dimension(150, 50));
     	qaButton.setFont(new Font("Arial", Font.BOLD, 15));
     	gbc.gridx = 1; //右下
         gbc.gridy = -1;
         add(qaButton, gbc);
         
-        //設定介面的切換
+        //設定維修員各介面的切換
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
-        mainPanel.add(new ReportPage(), "ReportPage");
-        mainPanel.add(new QAPage(), "QAPage");
-        mainPanel.add(new CheckPage(), "CheckPage");
-        mainPanel.add(new MapPage(), "MapPage");
+        mainPanel.add(new QASettingPanel(), "QASettingPanel"); //新增QA面板
         
-        //按下按鈕後，跳到新的page
-        checkButton.addActionListener(e -> { cardLayout.show(mainPanel,"CheckPage");});
-        reportButton.addActionListener(e -> { cardLayout.show(mainPanel,"ReportPage");});
-        mapButton.addActionListener(e -> { cardLayout.show(mainPanel,"MapPage");});
-        qaButton.addActionListener(e -> { cardLayout.show(mainPanel,"QAPage");});
+        checkButton.addActionListener(e -> new ScheduleDisplay());
+        reportButton.addActionListener(e -> new MaintenanceAccept());
+        mapButton.addActionListener(e -> new PriorityDetermine());
+        qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QASettingPanel"));
         
         setLocationRelativeTo(null);
     	setVisible(true);
+
 	}
+
 }
