@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class startPage extends JFrame{
-    public startPage() {
+public class StartPage extends JFrame{
+    public StartPage() {
     	setTitle("Start Page");
     	setSize(400, 300);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,8 +35,8 @@ public class startPage extends JFrame{
         gbc.gridy = 0;
         add(maintenanceButton, gbc);
            	
-    	userButton.addActionListener(e -> new userPage());
-    	maintenanceButton.addActionListener(e -> new maintenancePage());  	
+    	userButton.addActionListener(e -> new UserPage());
+    	maintenanceButton.addActionListener(e -> new MaintenancePage());  	
     	
     	setLocationRelativeTo(null);
     	setVisible(true);

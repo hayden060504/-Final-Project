@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class maintenancePage extends JFrame{
-	public maintenancePage() {
+public class MaintenancePage extends JFrame{
+	public MaintenancePage() {
 		
 		setTitle("Maintenance Page");
     	setSize(400, 300);
@@ -56,9 +56,9 @@ public class maintenancePage extends JFrame{
         JPanel mainPanel = new JPanel(cardLayout);
         mainPanel.add(new QASettingPanel(), "QASettingPanel"); //新增QA面板
         
-        checkButton.addActionListener(e -> new scheduleDisplay());
-        reportButton.addActionListener(e -> new maintenanceAccept());
-        mapButton.addActionListener(e -> new priorityDetermine());
+        checkButton.addActionListener(e -> new ScheduleDisplay());
+        reportButton.addActionListener(e -> new MaintenanceAccept());
+        mapButton.addActionListener(e -> new PriorityDetermine());
         qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QASettingPanel"));
         
         setLocationRelativeTo(null);

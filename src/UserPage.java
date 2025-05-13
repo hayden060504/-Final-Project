@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class userPage extends JFrame {
-	public userPage() {
+public class UserPage extends JFrame {
+	public UserPage() {
 		//基本設定跟user page 一樣
     	setTitle("User Page");
     	setSize(400, 300);
