@@ -28,6 +28,7 @@ public class ReportPage extends JPanel{
         fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
                 "圖片檔案 (JPG, PNG)", "jpg", "jpeg", "png"));
         //左邊面板
+        leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(1,4,0,0));
 		//大區域決定
 		bigPlace = new JComboBox<String>();
