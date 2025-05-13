@@ -51,10 +51,10 @@ public class maintenancePage extends JFrame{
         gbc.gridy = -1;
         add(qaButton, gbc);
         
-        //設定維修員介面的切換
+        //設定維修員各介面的切換
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
-        mainPanel.add(new QASettingPanel(), "QASettingPanel");
+        mainPanel.add(new QASettingPanel(), "QASettingPanel"); //新增QA面板
         
         checkButton.addActionListener(e -> new scheduleDisplay());
         reportButton.addActionListener(e -> new maintenanceAccept());

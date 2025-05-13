@@ -45,12 +45,19 @@ public class userPage extends JFrame {
         gbc.gridy = -1;
         add(qaButton, gbc);
         
+        //設定介面的切換
+        CardLayout cardLayout = new CardLayout();
+        JPanel mainPanel = new JPanel(cardLayout);
+        mainPanel.add(new ReportPage(), "ReportPage");
+        mainPanel.add(new QAPage(), "QAPage");
+        mainPanel.add(new CheckPage(), "CheckPage");
+        mainPanel.add(new MapPage(), "MapPage");
         
         //按下按鈕後，跳到新的page
-        checkButton.addActionListener(e -> new checkPage());
-        reportButton.addActionListener(e -> new reportPage());
-        mapButton.addActionListener(e -> new mapPage());
-        qaButton.addActionListener(e -> new qaPage());
+        checkButton.addActionListener(e -> { cardLayout.show(mainPanel,"CheckPage");});
+        reportButton.addActionListener(e -> { cardLayout.show(mainPanel,"ReportPage");});
+        mapButton.addActionListener(e -> { cardLayout.show(mainPanel,"MapPage");});
+        qaButton.addActionListener(e -> { cardLayout.show(mainPanel,"QAPage");});
         
         setLocationRelativeTo(null);
     	setVisible(true);

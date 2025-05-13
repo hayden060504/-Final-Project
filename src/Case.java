@@ -1,5 +1,5 @@
 
-public class Case {
+public class Case { //一個案件
 	private int ID; // ID
 	private String describe, place; // 地點和物件狀況的描述
 	private String type; // 報修類型

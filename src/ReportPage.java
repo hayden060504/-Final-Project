@@ -7,34 +7,37 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.File;
 
 public class ReportPage extends JPanel{
 	private JPanel leftPanel, rightPanel;
-	private JComboBox<String> bigType; //報修類型的大範圍
+	private JComboBox<String> bigPlace; //報修類型的大範圍
 	private JComboBox<String> type; //報修類型
 	private JTextArea describe; //描述輸入
 	private JTextField place; //地點輸入
-	private JButton summit; //送出按鈕
+	private JButton summitBtn; //送出按鈕
 	
 	public ReportPage() {
 		
 		setLayout(new BorderLayout());
-		
+		//圖片上傳
 		JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("上傳照片");
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
                 "圖片檔案 (JPG, PNG)", "jpg", "jpeg", "png"));
-		
-		bigType = new JComboBox<String>();
-		bigType.addItem("請選擇");
-		bigType.addItem("山下校園");
-		bigType.addItem("山上校園");
-		bigType.addItem("山上宿舍");
-		bigType.addItem("山下宿舍");
-		leftPanel.add(bigType);
-		
+        //左邊面板
+        leftPanel.setLayout(new GridLayout(1,4,0,0));
+		//大區域決定
+		bigPlace = new JComboBox<String>();
+		bigPlace.addItem("請選擇");
+		bigPlace.addItem("山下校園");
+		bigPlace.addItem("山上校園");
+		bigPlace.addItem("山上宿舍");
+		bigPlace.addItem("山下宿舍");
+		leftPanel.add(bigPlace);
+		//報修類型
 		type = new JComboBox<String>();
 		type.addItem("請選擇");
 		type.addItem("座椅損壞");
@@ -53,7 +56,15 @@ public class ReportPage extends JPanel{
 		type.addItem("洗衣機/烘衣機無法運作");
 		type.addItem("燈具不亮");
 		leftPanel.add(type);
+		//地點描述
+		place = new JTextField();
 		
+		
+		//具體狀況描述
+		describe = new JTextArea();
+		
+		//送出按鈕
+		summitBtn = new JButton("送出");
 		add(leftPanel,BorderLayout.WEST);
 	}
 	
