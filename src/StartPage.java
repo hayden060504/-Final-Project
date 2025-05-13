@@ -22,7 +22,7 @@ public class StartPage extends JFrame{
         gbc.weightx = 1.0;
         //讓按鈕隨視窗變動(y軸變大變小比例1:1)
         gbc.weighty = 1.0;
-    	
+        
     	JButton userButton = new JButton("User Page");
     	styleMilkTeaButton(userButton);
     	gbc.gridx = 0; //第一個
@@ -35,9 +35,22 @@ public class StartPage extends JFrame{
         gbc.gridy = 0;
         add(maintenanceButton, gbc);
            	
-    	userButton.addActionListener(e -> new UserPage());
-    	maintenanceButton.addActionListener(e -> new MaintenancePage());  	
-    	
+        userButton.addActionListener(e -> {
+            LoginDialog login = new LoginDialog(this, "user");
+            login.setVisible(true);
+            if (login.isAuthenticated()) {
+                new UserPage();
+            }
+        });
+
+        maintenanceButton.addActionListener(e -> {
+            LoginDialog login = new LoginDialog(this, "maintenance");
+            login.setVisible(true);
+            if (login.isAuthenticated()) {
+                new MaintenancePage();
+            }
+        });
+        
     	setLocationRelativeTo(null);
     	setVisible(true);
     	
