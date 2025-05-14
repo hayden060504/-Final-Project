@@ -55,10 +55,12 @@ public class MaintenancePage extends JFrame{
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
         mainPanel.add(new QASettingPanel(), "QASettingPanel"); //新增QA面板
+        mainPanel.add(new SchedulePage(), "SchedulePage"); //新增待維修面板
+        mainPanel.add(new MaintenanceAcceptPage(),"MaintenanceAcceptPage" );
         
-        checkButton.addActionListener(e -> new ScheduleDisplay());
-        reportButton.addActionListener(e -> new MaintenanceAccept());
-        mapButton.addActionListener(e -> new PriorityDetermine());
+        checkButton.addActionListener(e -> cardLayout.show(mainPanel, "SchedulePage"));
+        reportButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
+        //mapButton.addActionListener(e -> new PriorityDetermine()); 這個應該用不到吧？ by蔡昕恩
         qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QASettingPanel"));
         
         setLocationRelativeTo(null);
