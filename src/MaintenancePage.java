@@ -15,7 +15,10 @@ public class MaintenancePage extends JFrame{
 		setTitle("Maintenance Page");
     	setSize(400, 300);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setLayout(new GridBagLayout());
+        CardLayout cardLayout = new CardLayout();
+        JPanel mainPanel = new JPanel(cardLayout);
+        JPanel MaintenancePage = new JPanel();
+        MaintenancePage.setLayout(new GridBagLayout());
     	
     	GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -28,41 +31,42 @@ public class MaintenancePage extends JFrame{
     	checkButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 0; //左上
         gbc.gridy = 0;
-        add(checkButton, gbc);
+        MaintenancePage.add(checkButton, gbc);
         
         JButton reportButton = new JButton("");
     	reportButton.setPreferredSize(new Dimension(150, 50));
     	reportButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 1; //右上
         gbc.gridy = 0;
-        add(reportButton, gbc);
+        MaintenancePage.add(reportButton, gbc);
         
-        JButton mapButton = new JButton("Q&A");
+        JButton mapButton = new JButton("");
     	mapButton.setPreferredSize(new Dimension(150, 50));
     	mapButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 0; //左下
         gbc.gridy = -1;
-        add(mapButton, gbc);
+        MaintenancePage.add(mapButton, gbc);
         
-        JButton qaButton = new JButton("維修排序");
+        JButton qaButton = new JButton("Q&A");
     	qaButton.setPreferredSize(new Dimension(150, 50));
     	qaButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 1; //右下
         gbc.gridy = -1;
-        add(qaButton, gbc);
+        MaintenancePage.add(qaButton, gbc);
         
         //設定維修員各介面的切換
-        CardLayout cardLayout = new CardLayout();
-        JPanel mainPanel = new JPanel(cardLayout);
+        mainPanel.add(MaintenancePage,"MaintenancePage");
         mainPanel.add(new QASettingPanel(), "QASettingPanel"); //新增QA面板
         mainPanel.add(new SchedulePage(), "SchedulePage"); //新增待維修面板
         mainPanel.add(new MaintenanceAcceptPage(),"MaintenanceAcceptPage" );
+        add(mainPanel);
         
         checkButton.addActionListener(e -> cardLayout.show(mainPanel, "SchedulePage"));
         reportButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
         //mapButton.addActionListener(e -> new PriorityDetermine()); 這個應該用不到吧？ by蔡昕恩
         qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QASettingPanel"));
         
+        cardLayout.show(mainPanel,"MaintenancePage");
         setLocationRelativeTo(null);
     	setVisible(true);
 
