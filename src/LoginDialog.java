@@ -41,12 +41,12 @@ public class LoginDialog extends JDialog {
     }
 
     private boolean authenticate(String role, String username, String password) {
-        String url = "jdbc:mysql://localhost:3306/your_database";
-        String dbUser = "your_db_user";
-        String dbPassword = "your_db_password";
+        String url = "jdbc:mysql://140.119.19.73:3315/113306020";
+        String dbUser = "113306020";
+        String dbPassword = "pzwgt";
 
         try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
-        	String sql = "SELECT * FROM users WHERE username = ? AND password = ? AND role = ?";
+        	String sql = "SELECT * FROM login WHERE username = ? AND password = ? AND role = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);
