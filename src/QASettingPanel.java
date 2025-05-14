@@ -43,7 +43,7 @@ public class QASettingPanel extends JPanel {
 		titlePanel.add(title);
 		add(titlePanel, BorderLayout.NORTH);
 		// 初始化 JFXPanel
-		jfxPanel = new JFXPanel();
+		JFXPanel jfxPanel = new JFXPanel();
 		add(jfxPanel, BorderLayout.CENTER);
 
 		// 啟動 JavaFX UI

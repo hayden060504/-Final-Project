@@ -25,28 +25,28 @@ public class MaintenancePage extends JFrame{
         
         JButton checkButton = new JButton("排程排序");
     	checkButton.setPreferredSize(new Dimension(150, 50));
-    	checkButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	checkButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 0; //左上
         gbc.gridy = 0;
         add(checkButton, gbc);
         
         JButton reportButton = new JButton("");
     	reportButton.setPreferredSize(new Dimension(150, 50));
-    	reportButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	reportButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 1; //右上
         gbc.gridy = 0;
         add(reportButton, gbc);
         
         JButton mapButton = new JButton("Q&A");
     	mapButton.setPreferredSize(new Dimension(150, 50));
-    	mapButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	mapButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 0; //左下
         gbc.gridy = -1;
         add(mapButton, gbc);
         
         JButton qaButton = new JButton("維修排序");
     	qaButton.setPreferredSize(new Dimension(150, 50));
-    	qaButton.setFont(new Font("Arial", Font.BOLD, 15));
+    	qaButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
     	gbc.gridx = 1; //右下
         gbc.gridy = -1;
         add(qaButton, gbc);
