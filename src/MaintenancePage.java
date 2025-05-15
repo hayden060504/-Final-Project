@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class MaintenancePage extends JFrame{
 	public MaintenancePage() {
 		
-		setTitle("Maintenance Page");
+	setTitle("Maintenance Page");
     	setSize(400, 300);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         CardLayout cardLayout = new CardLayout();
@@ -29,35 +29,35 @@ public class MaintenancePage extends JFrame{
         JButton checkButton = new JButton("排程排序");
     	checkButton.setPreferredSize(new Dimension(150, 50));
     	checkButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
-    	gbc.gridx = 0; //左上
+    	gbc.gridx = 0;
         gbc.gridy = 0;
         MaintenancePage.add(checkButton, gbc);
         
         JButton reportButton = new JButton("");
     	reportButton.setPreferredSize(new Dimension(150, 50));
     	reportButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
-    	gbc.gridx = 1; //右上
+    	gbc.gridx = 1;
         gbc.gridy = 0;
         MaintenancePage.add(reportButton, gbc);
         
         JButton mapButton = new JButton("");
     	mapButton.setPreferredSize(new Dimension(150, 50));
     	mapButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
-    	gbc.gridx = 0; //左下
+    	gbc.gridx = 0;
         gbc.gridy = -1;
         MaintenancePage.add(mapButton, gbc);
         
         JButton qaButton = new JButton("Q&A");
     	qaButton.setPreferredSize(new Dimension(150, 50));
     	qaButton.setFont(new Font("Microsoft JhengHei", Font.BOLD, 15));
-    	gbc.gridx = 1; //右下
+    	gbc.gridx = 1;
         gbc.gridy = -1;
         MaintenancePage.add(qaButton, gbc);
         
-        //設定維修員各介面的切換
+   
         mainPanel.add(MaintenancePage,"MaintenancePage");
-        mainPanel.add(new QASettingPanel(), "QASettingPanel"); //新增QA面板
-        mainPanel.add(new SchedulePage(), "SchedulePage"); //新增待維修面板
+        mainPanel.add(new QASettingPanel(), "QASettingPanel"); 
+        mainPanel.add(new SchedulePage(), "SchedulePage");
         mainPanel.add(new MaintenanceAcceptPage(),"MaintenanceAcceptPage" );
         add(mainPanel);
         
