@@ -42,7 +42,7 @@ public class ReportPage extends JPanel {
 		leftPanel.add(locationCombo);
 
 		// 右邊
-		JPanel rightPanel = new JPanel(new BorderLayout());
+		rightPanel = new JPanel(new BorderLayout());
 		situation_description = new JTextArea(3, 20);
 		rightPanel.add(new JLabel("問題描述："), BorderLayout.NORTH);
 		rightPanel.add(new JScrollPane(situation_description), BorderLayout.CENTER);

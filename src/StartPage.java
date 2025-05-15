@@ -39,7 +39,8 @@ public class StartPage extends JFrame{
             LoginDialog login = new LoginDialog(this, "user");
             login.setVisible(true);
             if (login.isAuthenticated()) {
-                new UserPage();
+                dispose();
+            	new UserPage();
             }
         });
 
@@ -47,6 +48,7 @@ public class StartPage extends JFrame{
             LoginDialog login = new LoginDialog(this, "maintenance");
             login.setVisible(true);
             if (login.isAuthenticated()) {
+            	dispose();
                 new MaintenancePage();
             }
         });
