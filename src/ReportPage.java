@@ -5,6 +5,7 @@ import java.sql.*;
 import java.io.File;
 
 public class ReportPage extends JPanel {
+	//我用成自己的DATABASE了，之後改
 	String server = "jdbc:mysql://140.119.19.73:3315/";
 	String database = "113306020";
 	String username = "113306020";
@@ -22,6 +23,7 @@ public class ReportPage extends JPanel {
 
 		setLayout(new BorderLayout());
 		// 圖片上傳
+		//之後想改成傳不需要轉整個檔案的
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("上傳照片");
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -30,6 +32,7 @@ public class ReportPage extends JPanel {
 		// 左邊下拉選單區
 		leftPanel = new JPanel();
 		leftPanel.setLayout(new GridLayout(5, 1, 5, 5));
+		// 報修類型 跟 地點 表單
 		categoryCombo = new JComboBox<>();
 		locationCombo = new JComboBox<>();
 
