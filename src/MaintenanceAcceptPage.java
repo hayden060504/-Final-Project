@@ -58,3 +58,4 @@ public class MaintenanceAcceptPage extends Panel {
 
         return rowPanel;
     }
+}
