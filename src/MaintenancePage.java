@@ -40,12 +40,12 @@ public class MaintenancePage extends JFrame{
 	            JButton systemButton = new JButton("<html>操作<br>系統</html>");
 	            JButton qaButton = new JButton("Q&A");
 
-	            //改這裡，button點擊後到各個頁面
-	            repairButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "你點了請維修"));
-	            systemButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "你點了操作系統"));
-	            qaButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "你點了 Q&A"));
-
 	            
+	            repairButton.addActionListener(e -> new PriorityDeterminePage());
+	            systemButton.addActionListener(e -> new MaintenanceAcceptPage());
+	            qaButton.addActionListener(e -> new QAPage());
+	            
+
 	            panel.add(repairButton);
 	            panel.add(systemButton);
 	            panel.add(qaButton);
