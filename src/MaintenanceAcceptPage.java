@@ -31,8 +31,9 @@ public class MaintenanceAcceptPage extends Panel {
         Panel rowPanel = new Panel();
         rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
 
-        Label caseLabel = new Label(caseName);
+        JLabel caseLabel = new JLabel(caseName);
         caseLabel.setPreferredSize(new Dimension(200, 30));
+        caseLabel.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 
         Button acceptButton = new Button("A"); 
         Button deleteButton = new Button("D"); 
@@ -40,15 +41,19 @@ public class MaintenanceAcceptPage extends Panel {
       
         acceptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("✅ 接受了案件：" + caseName);
+                new SchedulePage();
     
             }
         });
 
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("❌ 刪除了案件：" + caseName);
-                rowPanel.setVisible(false); 
+            	Container parent = rowPanel.getParent();
+                if (parent != null) {
+                    parent.remove(rowPanel);	//移除 rowPanel
+                    parent.revalidate();		//重新布局
+                    parent.repaint();			//重新呈現畫面
+                }
             }
         });
 
