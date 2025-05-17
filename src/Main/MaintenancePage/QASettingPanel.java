@@ -1,3 +1,4 @@
+package Main.MaintenancePage;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -25,14 +26,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-public class QAPage extends JPanel {
+public class QASettingPanel extends JPanel {
 	private JLabel title;
 	private JFXPanel jfxPanel;
 	private Button addNew;
 	private ArrayList<String> questions;
 	private ArrayList<String> answers;
 
-	public QAPage() {
+	public QASettingPanel() {
 
 		setLayout(new BorderLayout());
 		// Title set
@@ -155,3 +156,4 @@ public class QAPage extends JPanel {
 
 
 }
+

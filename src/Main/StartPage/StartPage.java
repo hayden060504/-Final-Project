@@ -1,4 +1,10 @@
+package Main.StartPage;
 import javax.swing.*;
+
+
+import Main.UserPage.*;
+import Main.MaintenancePage.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

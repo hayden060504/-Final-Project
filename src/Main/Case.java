@@ -1,3 +1,4 @@
+package Main;
 
 public class Case { //一個案件
 	private int ID; // ID

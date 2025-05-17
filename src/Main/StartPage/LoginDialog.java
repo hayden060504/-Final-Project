@@ -1,3 +1,4 @@
+package Main.StartPage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -41,9 +42,9 @@ public class LoginDialog extends JDialog {
     }
 
     private boolean authenticate(String role, String username, String password) {
-        String url = "jdbc:mysql://140.119.19.73:3315/113306020";
-        String dbUser = "113306020";
-        String dbPassword = "pzwgt";
+        String url = "jdbc:mysql://140.119.19.73:3315/TG09";
+        String dbUser = "TG09";
+        String dbPassword = "hGykqi";
 
         try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
         	String sql = "SELECT * FROM login WHERE username = ? AND password = ? AND role = ?";

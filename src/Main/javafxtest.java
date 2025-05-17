@@ -1,3 +1,4 @@
+package Main;
 import javafx.application.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

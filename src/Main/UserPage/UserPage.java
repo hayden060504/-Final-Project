@@ -1,3 +1,5 @@
+package Main.UserPage;
+import Main.StartPage.*;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;

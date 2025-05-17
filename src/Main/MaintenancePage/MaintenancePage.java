@@ -1,4 +1,8 @@
+package Main.MaintenancePage;
 import java.awt.Dimension;
+
+import Main.StartPage.*;
+import Main.UserPage.*;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

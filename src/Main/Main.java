@@ -1,4 +1,7 @@
+package Main;
 import javax.swing.SwingUtilities;
+
+import Main.StartPage.StartPage;
 
 public class Main {
 
