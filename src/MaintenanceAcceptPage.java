@@ -10,7 +10,7 @@ public class MaintenanceAcceptPage extends Panel {
 
    
         JLabel titleLabel = new JLabel("接案系統", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
         add(titleLabel, BorderLayout.NORTH);
 
        
@@ -57,5 +57,16 @@ public class MaintenanceAcceptPage extends Panel {
         rowPanel.add(deleteButton);
 
         return rowPanel;
+    }
+    
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("維修接案系統");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        MaintenanceAcceptPage page = new MaintenanceAcceptPage();
+        frame.add(page);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
