@@ -6,6 +6,14 @@ import java.awt.event.ActionListener;
 public class MaintenanceAcceptPage extends Panel {
 
     public MaintenanceAcceptPage() {
+    	 JFrame frame = new JFrame("維修接案系統");
+         frame.setSize(400, 300);
+         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         
+         frame.add(this);	//Panel加進Frame
+         frame.setLocationRelativeTo(null);
+         frame.setVisible(true);
+         
         setLayout(new BorderLayout());
 
    
@@ -62,16 +70,5 @@ public class MaintenanceAcceptPage extends Panel {
         rowPanel.add(deleteButton);
 
         return rowPanel;
-    }
-    
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("維修接案系統");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        MaintenanceAcceptPage page = new MaintenanceAcceptPage();
-        frame.add(page);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 }

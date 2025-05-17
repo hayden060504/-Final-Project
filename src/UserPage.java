@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class UserPage {
 
-    public static void main(String[] args) {
+    public UserPage() {
     	//初始化 Swing UI
         SwingUtilities.invokeLater(() -> {
         	JFrame frame = new JFrame("User Page");

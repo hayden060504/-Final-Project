@@ -37,7 +37,7 @@ public class MaintenancePage extends JFrame{
 	            JPanel panel = new JPanel(new GridLayout(1, 3, 10, 10));
 
 	            JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
-	            JButton systemButton = new JButton("<html>操作<br>系統</html>");
+	            JButton systemButton = new JButton("<html>接案<br>系統</html>");
 	            JButton qaButton = new JButton("Q&A");
 
 	            
