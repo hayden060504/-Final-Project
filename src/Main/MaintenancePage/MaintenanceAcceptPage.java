@@ -32,6 +32,7 @@ public class MaintenanceAcceptPage extends JPanel {
         JScrollPane scrollPane = new JScrollPane(reportListPanel);
         add(scrollPane, BorderLayout.CENTER);
         
+        
         //載入未接受的案件
         loadUnacceptedReports(); 
     }
