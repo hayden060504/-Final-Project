@@ -11,13 +11,13 @@ public class LoginDialog extends JDialog {
         super(parent, "Login - " + role, true);
         setLayout(new GridLayout(3, 2, 10, 10));
 
-        JLabel userLabel = new JLabel("Username:");
-        JTextField userField = new JTextField();
-        JLabel passLabel = new JLabel("Password:");
-        JPasswordField passField = new JPasswordField();
+        JLabel userLabel = new JLabel("使用者名稱:");
+        JTextField userField = new JTextField(12);
+        JLabel passLabel = new JLabel("密碼:");
+        JPasswordField passField = new JPasswordField(12);
 
-        JButton loginButton = new JButton("Login");
-        JButton cancelButton = new JButton("Cancel");
+        JButton loginButton = new JButton("登入");
+        JButton cancelButton = new JButton("取消");
 
         loginButton.addActionListener(e -> {
             String username = userField.getText();
