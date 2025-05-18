@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-
+ 
 public class MaintenanceAcceptPage extends JPanel {
 	//連接資料庫
 	String server = "jdbc:mysql://140.119.19.73:3315/";

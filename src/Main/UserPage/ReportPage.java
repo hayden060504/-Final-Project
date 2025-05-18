@@ -19,7 +19,6 @@ public class ReportPage extends JPanel {
 	private JTextArea situation_description; // 描述輸入
 	private JTextArea place_description; // 地點輸入
 	private JButton submitBtn; // 送出按鈕
-
 	public ReportPage() {
 
 		setLayout(new BorderLayout());
