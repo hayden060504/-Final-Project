@@ -69,7 +69,10 @@ public class MaintenancePage extends JFrame {
 			setVisible(true);
 	}
 	//獲得CardLayout，別的畫面的跳回按鍵用這兩個
-	//e.g:getCardLayout().show(getMainPanel(),"你想要的畫面");
+	/*e.g:
+	 *MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(),"你想要的畫面");
+	 *根據上方cardLayout建立時後面的String去打在你想要的畫面
+	 */
 	public static CardLayout getCardLayout() {
 		return cardLayout;
 	}
