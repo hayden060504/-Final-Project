@@ -6,6 +6,7 @@ import java.sql.*;
 
 public class LoginDialog extends JDialog {
     private boolean authenticated = false;
+    private int maintenanceId = -1;
 
     public LoginDialog(Frame parent, String role) {
         super(parent, "Login - " + role, true);
@@ -54,14 +55,22 @@ public class LoginDialog extends JDialog {
             stmt.setString(3, role);
 
             ResultSet rs = stmt.executeQuery();
-            return rs.next(); // 有結果代表驗證成功
+            //return rs.next(); // 有結果代表驗證成功
+            if (rs.next()) {
+                maintenanceId = rs.getInt("id"); 
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public boolean isAuthenticated() {
         return authenticated;
+    }
+    
+    public int getUserId() {
+        return maintenanceId;
     }
 }

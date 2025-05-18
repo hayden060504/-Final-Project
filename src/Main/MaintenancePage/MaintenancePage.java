@@ -16,7 +16,7 @@ public class MaintenancePage extends JFrame {
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
 	
-	public MaintenancePage() {
+	public MaintenancePage(int maintenanceId) {
 
 			//視窗的設定
 			setTitle("Maintenance");
@@ -53,12 +53,12 @@ public class MaintenancePage extends JFrame {
 			//創建每個畫面，並加入mainPanel
 			mainPanel.add(maintenancePanel,"MaintenancePage");
 			mainPanel.add(new SchedulePage(),"SchedulePage");
-			mainPanel.add(new MaintenanceAcceptPage(),"MaintenanceAcceptPage");
+			mainPanel.add(new MaintenanceAcceptPage(maintenanceId),"MaintenanceAcceptPage");
 			mainPanel.add(new QAPageForMaintenance(),"QAPageForMaintenance");
 			
 			//設定切換畫面
 			repairButton.addActionListener(e -> {cardLayout.show(mainPanel, "SchedulePage");
-												 setTitle("Q&A");}); //設置title
+												 setTitle("SchedulePage");}); //設置title
 			systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 			qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
 			

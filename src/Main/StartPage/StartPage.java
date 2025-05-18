@@ -55,7 +55,7 @@ public class StartPage extends JFrame{
             login.setVisible(true);
             if (login.isAuthenticated()) {
             	dispose();
-                new MaintenancePage();
+                new MaintenancePage(login.getUserId());
             }
         });
         
@@ -76,5 +76,3 @@ public class StartPage extends JFrame{
     }
     
 }
-
-

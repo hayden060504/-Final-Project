@@ -77,7 +77,7 @@ public class MaintenanceAcceptPage extends JPanel {
        } catch (SQLException e) {
            e.printStackTrace();
        }
-       //按接受之後刷新葉面
+       //按接受之後刷新頁面
        revalidate();
        repaint();
    }
