@@ -199,9 +199,5 @@ public class QAPageForMaintenance extends JPanel {
 
 	    return pane;
 	}
-	
-	
-
-
 }
 

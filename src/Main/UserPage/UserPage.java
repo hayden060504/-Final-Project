@@ -1,29 +1,54 @@
 package Main.UserPage;
-import Main.StartPage.*;
+import java.awt.CardLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-
-import javax.swing.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class UserPage {
+	private static CardLayout cardLayout;
+	private static JPanel mainPanel;
 
     public UserPage() {
         	JFrame frame = new JFrame("User Page");
         	frame.setSize(400, 300);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
 
             //建立 JFXPanel(就是你讓我用很久!!!)
+            //笑死
             JFXPanel fxPanel = new JFXPanel();
-            frame.add(fxPanel);
-            frame.setVisible(true);
-
+            
+            cardLayout = new CardLayout();
+            mainPanel = new JPanel(cardLayout);
+            
+            mainPanel.add(fxPanel,"UserPage");
+            frame.add(mainPanel);
+            
+            //新增畫面
+            mainPanel.add(new ReportPage(),"ReportPage");
+            mainPanel.add(new CheckPage(),"CheckPage");
+            mainPanel.add(new MapPage(),"MapPage");
+            mainPanel.add(new QAPageForUser(),"QAPageForUser");
+            
             //啟動 JavaFX UI
             Platform.runLater(() -> fxPanel.setScene(createFXScene()));
+            
+            //設定初始畫面
+            cardLayout.show(mainPanel, "UserPage");
+            
+            frame.setVisible(true);
         };
 
     //JavaFX Scene
@@ -96,11 +121,13 @@ public class UserPage {
                     "-fx-font-weight: bold;");
         }
 
+        
+        
         //按按鈕換到新Page
-        reportBtn.setOnAction(e -> new ReportPage());
-        checkBtn.setOnAction(e -> new CheckPage());
-        mapBtn.setOnAction(e -> new MapPage());
-        QABtn.setOnAction(e -> new QAPageForUser());
+        reportBtn.setOnAction(e -> cardLayout.show(mainPanel, "ReportPage"));
+        checkBtn.setOnAction(e -> cardLayout.show(mainPanel, "CheckPage"));
+        mapBtn.setOnAction(e -> cardLayout.show(mainPanel, "MapPage"));
+        QABtn.setOnAction(e -> cardLayout.show(mainPanel, "QAPageForUser"));
 
         rightPanel.getChildren().addAll(reportBtn, checkBtn, mapBtn, QABtn);
 
@@ -110,4 +137,16 @@ public class UserPage {
 
         return new Scene(root);
     }
+    
+  //獲得CardLayout，別的畫面的跳回按鍵用這兩個
+  	/*e.g:
+  	 *UserPage.getCardLayout().show(UserPage.getMainPanel(),"你想要的畫面");
+  	 *根據上方cardLayout建立時後面的String去打在你想要的畫面
+  	 */
+  	public static CardLayout getCardLayout() {
+  		return cardLayout;
+  	}
+  	public static JPanel getMainPanel() {
+  		return mainPanel;
+  	}
 }
