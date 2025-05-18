@@ -13,8 +13,6 @@ import javax.swing.*;
 public class UserPage {
 
     public UserPage() {
-    	//初始化 Swing UI
-        SwingUtilities.invokeLater(() -> {
         	JFrame frame = new JFrame("User Page");
         	frame.setSize(400, 300);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,8 +24,7 @@ public class UserPage {
 
             //啟動 JavaFX UI
             Platform.runLater(() -> fxPanel.setScene(createFXScene()));
-        });
-    }
+        };
 
     //JavaFX Scene
     private static Scene createFXScene() {

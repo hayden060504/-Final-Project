@@ -5,40 +5,38 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MaintenanceAcceptPage extends Panel {
+public class MaintenanceAcceptPage extends JPanel {
 
+	private JPanel listPanel;
+	
     public MaintenanceAcceptPage() {
-    	 JFrame frame = new JFrame("維修接案系統");
-         frame.setSize(400, 300);
-         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         
-         frame.add(this);	//Panel加進Frame
-         frame.setLocationRelativeTo(null);
-         frame.setVisible(true);
-         
-        setLayout(new BorderLayout());
-
-   
+    
+    	//上面的title
         JLabel titleLabel = new JLabel("接案系統", JLabel.CENTER);
         titleLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
         add(titleLabel, BorderLayout.NORTH);
+        
 
-       
-        Panel listPanel = new Panel();
+        //包住rowPanel(含有案件 跟 接受&刪除按鈕)
+        //因為rowPanel會根據user新增 或 maintenance刪除 而增減，但listPanel是不變的!
+        listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1, 5, 10)); 
 
-       
-        String[] cases = {"教室冷氣異常", "電燈不亮", "門把壞了", "投影機壞掉"};
-
-        for (String caseItem : cases) {
-            listPanel.add(createCaseRow(caseItem));
-        }
-
-        add(listPanel, BorderLayout.CENTER);
+        //加個scrollPane，案件多的時候可以往下滑
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+    
+    //讓user上傳的案件(會變動)顯示在MaintenanceAcceptPage的方法
+    public void addCase(String caseName) {
+        JPanel rowPanel = createCaseRow(caseName);
+        listPanel.add(rowPanel);
+        listPanel.revalidate();	//重新布局
+        listPanel.repaint();	//重新呈現畫面
     }
 
-    private Panel createCaseRow(String caseName) {
-        Panel rowPanel = new Panel();
+    private JPanel createCaseRow(String caseName) {
+        JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
 
         JLabel caseLabel = new JLabel(caseName);
@@ -51,7 +49,7 @@ public class MaintenanceAcceptPage extends Panel {
       
         acceptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new SchedulePage();
+            	MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "SchedulePage");
     
             }
         });
