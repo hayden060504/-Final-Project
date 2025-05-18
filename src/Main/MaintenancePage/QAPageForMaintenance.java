@@ -1,5 +1,7 @@
 package Main.MaintenancePage;
 
+import java.sql.*;
+
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class QAPageForMaintenance extends JPanel {
 	public QAPageForMaintenance() {
 
 		setLayout(new BorderLayout());
-		
+
 		// 初始化 JFXPanel
 		jfxPanel = new JFXPanel();
 		add(jfxPanel, BorderLayout.CENTER);
@@ -48,156 +50,165 @@ public class QAPageForMaintenance extends JPanel {
 	}
 
 	private void initFX(JFXPanel fxPanel) {
-	    VBox contentBox = new VBox(10);
-	    contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
+		VBox contentBox = new VBox(10);
+		contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
 
-	    // [1] 標題列 + 新增按鈕
-	    HBox headerBox = new HBox();
-	    headerBox.setSpacing(10);
-	    headerBox.setAlignment(Pos.CENTER_LEFT);
+		// [1] 標題列 + 新增按鈕
+		HBox headerBox = new HBox();
+		headerBox.setSpacing(10);
+		headerBox.setAlignment(Pos.CENTER_LEFT);
 
-	    // 建立標題 Label
-	    Label titleLabel = new Label("Q&A");
-	    titleLabel.setFont(Font.font("Microsoft JhengHei", FontWeight.BOLD, 40));
+		// 建立標題 Label
+		Label titleLabel = new Label("Q&A");
+		titleLabel.setFont(Font.font("Microsoft JhengHei", FontWeight.BOLD, 40));
 
-	    // 加上彈性空間（把右邊的按鈕推到右邊）
-	    Region spacer = new Region();
-	    HBox.setHgrow(spacer, Priority.ALWAYS);
+		// 加上彈性空間（把右邊的按鈕推到右邊）
+		Region spacer = new Region();
+		HBox.setHgrow(spacer, Priority.ALWAYS);
 
-	    // 新增按鈕
-	    Button addNewBtn = new Button("新增問題");
+		// 新增按鈕
+		Button addNewBtn = new Button("新增問題");
 
-	    
-	    
-	    // 加到 HBox（順序很重要）
-	    headerBox.getChildren().addAll(titleLabel, spacer, addNewBtn);
+		// 加到 HBox（順序很重要）
+		headerBox.getChildren().addAll(titleLabel, spacer, addNewBtn);
 
-	    contentBox.getChildren().add(headerBox);
-	    
-	    
-	    Accordion accordion = new Accordion();
+		contentBox.getChildren().add(headerBox);
 
-	    for (int i = 1; i <= 2; i++) {
-	        TitledPane pane = createQuestionPane("問題" + i, "答案" + i);
-	        accordion.getPanes().add(pane);
-	    }
+		Accordion accordion = new Accordion();
 
-	    contentBox.getChildren().add(accordion);
+		for (int i = 1; i <= 2; i++) {
+			TitledPane pane = createQuestionPane("問題" + i, "答案" + i);
+			accordion.getPanes().add(pane);
+		}
 
-	    // [3] 放進 ScrollPane
-	    ScrollPane scrollPane = new ScrollPane(contentBox);
-	    scrollPane.setFitToWidth(true);
-	    scrollPane.setStyle("-fx-background: #ffffff;");
+		contentBox.getChildren().add(accordion);
 
-	    Scene scene = new Scene(scrollPane, 500, 400);
-	    fxPanel.setScene(scene);
-	    
-	  //返回按鈕
-	    HBox bottomBox = new HBox();
-	    bottomBox.setSpacing(10);
-	    bottomBox.setAlignment(Pos.CENTER_LEFT);
-	    
-	    Button returnBtn = new Button("返回");
-	    
-	    bottomBox.getChildren().add(returnBtn);
-	    
-	    contentBox.getChildren().add(bottomBox);
-	    
-	    //新增按鈕的反應
-	    addNewBtn.setOnAction(e -> {
-	        Dialog<Pair<String, String>> dialog = new Dialog<>();
-	        dialog.setTitle("新增 Q&A");
-	        dialog.setHeaderText("請輸入問題與答案");	        
-	        
-	        ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
-	        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
-	        
-	     // 問題與答案輸入框
-	        TextField questionField = new TextField("問題");
-	        TextArea answerField = new TextArea("答案");
+		// [3] 放進 ScrollPane
+		ScrollPane scrollPane = new ScrollPane(contentBox);
+		scrollPane.setFitToWidth(true);
+		scrollPane.setStyle("-fx-background: #ffffff;");
 
-	        VBox dialogContent = new VBox(10);
-	        dialogContent.setPadding(new Insets(10));
-	        dialogContent.getChildren().addAll(
-	            new Label("問題："), questionField,
-	            new Label("答案："), answerField
-	        );
+		Scene scene = new Scene(scrollPane, 500, 400);
+		fxPanel.setScene(scene);
 
-	        dialog.getDialogPane().setContent(dialogContent);
+		// 返回按鈕
+		HBox bottomBox = new HBox();
+		bottomBox.setSpacing(10);
+		bottomBox.setAlignment(Pos.CENTER_LEFT);
 
-	        dialog.showAndWait();
+		Button returnBtn = new Button("返回");
 
-	        TitledPane newPane = createQuestionPane(questionField.getText(),answerField.getText());
-	        accordion.getPanes().add(newPane);
-	    });
-	    
-	    returnBtn.setOnAction(e ->{
-	    	MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
-	    });
+		bottomBox.getChildren().add(returnBtn);
+
+		contentBox.getChildren().add(bottomBox);
+
+		// 新增按鈕的反應
+		addNewBtn.setOnAction(e -> {
+			Dialog<Pair<String, String>> dialog = new Dialog<>();
+			dialog.setTitle("新增 Q&A");
+			dialog.setHeaderText("請輸入問題與答案");
+
+			ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+
+			// 問題與答案輸入框
+			TextField questionField = new TextField("問題");
+			TextArea answerField = new TextArea("答案");
+
+			VBox dialogContent = new VBox(10);
+			dialogContent.setPadding(new Insets(10));
+			dialogContent.getChildren().addAll(new Label("問題："), questionField, new Label("答案："), answerField);
+
+			dialog.getDialogPane().setContent(dialogContent);
+
+			dialog.showAndWait();
+
+			TitledPane newPane = createQuestionPane(questionField.getText(), answerField.getText());
+			accordion.getPanes().add(newPane);
+		});
+
+		returnBtn.setOnAction(e -> {
+			MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
+		});
 	}
-	
+
 	private TitledPane createQuestionPane(String question, String answer) {
-	    // 問題與答案的 Label
-	    Label questionLabel = new Label(question);
-	    Label answerLabel = new Label(answer);
-	    answerLabel.setWrapText(true);
-	    answerLabel.setMaxWidth(400);
+		// 問題與答案的 Label
+		Label questionLabel = new Label(question);
+		Label answerLabel = new Label(answer);
+		answerLabel.setWrapText(true);
+		answerLabel.setMaxWidth(400);
 
-	    // 修改按鈕（放在標題右側）
-	    Button editBtn = new Button("✏");
-	    editBtn.setStyle("-fx-font-size: 10; -fx-padding: 2 6 2 6;");
-	    editBtn.setOnAction(e -> {
-	        // 兩個輸入框對話視窗
-	        Dialog<Pair<String, String>> dialog = new Dialog<>();
-	        dialog.setTitle("修改 Q&A");
-	        dialog.setHeaderText("請修改問題與答案");
+		// 修改按鈕（放在標題右側）
+		Button editBtn = new Button("✏");
+		editBtn.setStyle("-fx-font-size: 10; -fx-padding: 2 6 2 6;");
+		editBtn.setOnAction(e -> {
+			// 兩個輸入框對話視窗
+			Dialog<Pair<String, String>> dialog = new Dialog<>();
+			dialog.setTitle("修改 Q&A");
+			dialog.setHeaderText("請修改問題與答案");
 
-	        // 使用預設的 OK/Cancel 按鈕
-	        ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
-	        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+			// 使用預設的 OK/Cancel 按鈕
+			ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
 
-	        // 問題與答案輸入框
-	        TextField questionField = new TextField(questionLabel.getText());
-	        TextArea answerField = new TextArea(answerLabel.getText());
+			// 問題與答案輸入框
+			TextField questionField = new TextField(questionLabel.getText());
+			TextArea answerField = new TextArea(answerLabel.getText());
 
-	        VBox dialogContent = new VBox(10);
-	        dialogContent.setPadding(new Insets(10));
-	        dialogContent.getChildren().addAll(
-	            new Label("問題："), questionField,
-	            new Label("答案："), answerField
-	        );
+			VBox dialogContent = new VBox(10);
+			dialogContent.setPadding(new Insets(10));
+			dialogContent.getChildren().addAll(new Label("問題："), questionField, new Label("答案："), answerField);
 
-	        dialog.getDialogPane().setContent(dialogContent);
+			dialog.getDialogPane().setContent(dialogContent);
 
-	        // 結果處理
-	        dialog.setResultConverter(dialogButton -> {
-	            if (dialogButton == okButtonType) {
-	                return new Pair<>(questionField.getText(), answerField.getText());
-	            }
-	            return null;
-	        });
+			// 結果處理
+			dialog.setResultConverter(dialogButton -> {
+				if (dialogButton == okButtonType) {
+					return new Pair<>(questionField.getText(), answerField.getText());
+				}
+				return null;
+			});
 
-	        dialog.showAndWait().ifPresent(result -> {
-	            questionLabel.setText(result.getKey());
-	            answerLabel.setText(result.getValue());
-	        });
-	    });
+			dialog.showAndWait().ifPresent(result -> {
+				questionLabel.setText(result.getKey());
+				answerLabel.setText(result.getValue());
+			});
+		});
 
-	    // 標題區域（問題 + 修改鈕）
-	    HBox titleBox = new HBox(10, questionLabel, editBtn);
-	    titleBox.setStyle("-fx-alignment: center-left;");
-	    titleBox.setPadding(new Insets(5));
+		// 標題區域（問題 + 修改鈕）
+		HBox titleBox = new HBox(10, questionLabel, editBtn);
+		titleBox.setStyle("-fx-alignment: center-left;");
+		titleBox.setPadding(new Insets(5));
 
-	    // 答案區域
-	    VBox contentBox = new VBox(answerLabel);
-	    contentBox.setPadding(new Insets(5));
+		// 答案區域
+		VBox contentBox = new VBox(answerLabel);
+		contentBox.setPadding(new Insets(5));
 
-	    // TitledPane
-	    TitledPane pane = new TitledPane();
-	    pane.setGraphic(titleBox);
-	    pane.setContent(contentBox);
+		// TitledPane
+		TitledPane pane = new TitledPane();
+		pane.setGraphic(titleBox);
+		pane.setContent(contentBox);
 
-	    return pane;
+		return pane;
+	}
+
+	private void update() {
+		String server = "jdbc:mysql://140.119.19.73:3315/";
+		String database = "TG09"; // change to your own database
+		String url = server + database + "?useSSL=false";
+		String username = "TG09"; // change to your own username
+		String password = "hGykqi"; // change to your own password
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			System.out.println("DB Connected");
+
+			Statement stat = conn.createStatement();
+			String query;
+			boolean success;
+
+			query = "";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
-

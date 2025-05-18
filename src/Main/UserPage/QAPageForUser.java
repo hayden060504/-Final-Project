@@ -74,11 +74,6 @@ public class QAPageForUser extends JPanel {
 	    
 	    Accordion accordion = new Accordion();
 
-	    for (int i = 1; i <= 2; i++) {
-	        TitledPane pane = createQuestionPane("問題" + i, "答案" + i);
-	        accordion.getPanes().add(pane);
-	    }
-
 	    contentBox.getChildren().add(accordion);
 
 	    // [3] 放進 ScrollPane
@@ -103,69 +98,5 @@ public class QAPageForUser extends JPanel {
 	    returnBtn.setOnAction(e ->{
 	    	UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
 	    });
-	}
-	
-	private TitledPane createQuestionPane(String question, String answer) {
-	    // 問題與答案的 Label
-	    Label questionLabel = new Label(question);
-	    Label answerLabel = new Label(answer);
-	    answerLabel.setWrapText(true);
-	    answerLabel.setMaxWidth(400);
-
-	    // 修改按鈕（放在標題右側）
-	    Button editBtn = new Button("✏");
-	    editBtn.setStyle("-fx-font-size: 10; -fx-padding: 2 6 2 6;");
-	    editBtn.setOnAction(e -> {
-	        // 兩個輸入框對話視窗
-	        Dialog<Pair<String, String>> dialog = new Dialog<>();
-	        dialog.setTitle("修改 Q&A");
-	        dialog.setHeaderText("請修改問題與答案");
-
-	        // 使用預設的 OK/Cancel 按鈕
-	        ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
-	        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
-
-	        // 問題與答案輸入框
-	        TextField questionField = new TextField(questionLabel.getText());
-	        TextArea answerField = new TextArea(answerLabel.getText());
-
-	        VBox dialogContent = new VBox(10);
-	        dialogContent.setPadding(new Insets(10));
-	        dialogContent.getChildren().addAll(
-	            new Label("問題："), questionField,
-	            new Label("答案："), answerField
-	        );
-
-	        dialog.getDialogPane().setContent(dialogContent);
-
-	        // 結果處理
-	        dialog.setResultConverter(dialogButton -> {
-	            if (dialogButton == okButtonType) {
-	                return new Pair<>(questionField.getText(), answerField.getText());
-	            }
-	            return null;
-	        });
-
-	        dialog.showAndWait().ifPresent(result -> {
-	            questionLabel.setText(result.getKey());
-	            answerLabel.setText(result.getValue());
-	        });
-	    });
-
-	    // 標題區域（問題 + 修改鈕）
-	    HBox titleBox = new HBox(10, questionLabel, editBtn);
-	    titleBox.setStyle("-fx-alignment: center-left;");
-	    titleBox.setPadding(new Insets(5));
-
-	    // 答案區域
-	    VBox contentBox = new VBox(answerLabel);
-	    contentBox.setPadding(new Insets(5));
-
-	    // TitledPane
-	    TitledPane pane = new TitledPane();
-	    pane.setGraphic(titleBox);
-	    pane.setContent(contentBox);
-
-	    return pane;
 	}
 }
