@@ -1,63 +1,79 @@
 package Main.MaintenancePage;
-import java.awt.Dimension;
 
-import Main.StartPage.*;
-import Main.UserPage.*;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
-public class MaintenancePage extends JFrame{
+public class MaintenancePage extends JFrame {
+	private static CardLayout cardLayout;
+	private static JPanel mainPanel;
+	
 	public MaintenancePage() {
-		
-		 SwingUtilities.invokeLater(() -> {
-	           
-	            JFrame frame = new JFrame("Maintenance");
-	            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	            frame.setSize(400, 300);
-	            frame.setLayout(new BorderLayout());
 
-	            
-	            JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
-	            titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
-	            titleLabel.setOpaque(true);
-	            titleLabel.setBackground(new Color(255, 204, 204));
-	            frame.add(titleLabel, BorderLayout.NORTH);
+			//視窗的設定
+			setTitle("Maintenance");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setSize(400, 300);
+			//主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
+			cardLayout = new CardLayout();
+			mainPanel = new JPanel(cardLayout);
+			//創建維修員Panel
+			JPanel maintenancePanel = new JPanel();
+			maintenancePanel.setLayout(new BorderLayout());
+			//上方的title
+			JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
+			titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+			titleLabel.setOpaque(true);
+			titleLabel.setBackground(new Color(255, 204, 204));
+			maintenancePanel.add(titleLabel, BorderLayout.NORTH);
+			//下方的三個按鈕和乘載的Panel
+			JPanel downPanel = new JPanel(new GridLayout(1, 3, 10, 10));
 
-	            
-	            JPanel panel = new JPanel(new GridLayout(1, 3, 10, 10));
+			JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
+			JButton systemButton = new JButton("<html>接案<br>系統</html>");
+			JButton qaButton = new JButton("Q&A");
 
-	            JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
-	            JButton systemButton = new JButton("<html>接案<br>系統</html>");
-	            JButton qaButton = new JButton("Q&A");
+			downPanel.add(repairButton);
+			downPanel.add(systemButton);
+			downPanel.add(qaButton);
+			
+			maintenancePanel.add(downPanel, BorderLayout.CENTER);
 
-	            
-	            repairButton.addActionListener(e -> new PriorityDeterminePage());
-	            systemButton.addActionListener(e -> new MaintenanceAcceptPage());
-	            qaButton.addActionListener(e -> new QAPage());
-	            
-
-	            panel.add(repairButton);
-	            panel.add(systemButton);
-	            panel.add(qaButton);
-
-	            frame.add(panel, BorderLayout.CENTER);
-
-	            
-	            frame.setVisible(true);
-	        });
-	    }
+			// 在同一個視窗內，改畫面，不要再跳一個新視窗了
+			// 不要再用new那個class了
+			//創建每個畫面，並加入mainPanel
+			mainPanel.add(maintenancePanel,"maintenancePanel");
+			mainPanel.add(new SchedulePage(),"SchedulePage");
+			mainPanel.add(new MaintenanceAcceptPage(),"MaintenanceAcceptPage");
+			mainPanel.add(new QAPageForMaintenance(),"QAPageForMaintenance");
+			
+			//設定切換畫面
+			repairButton.addActionListener(e -> cardLayout.show(mainPanel, "SchedulePage"));
+			systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
+			qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
+			
+			//加到JFrame
+			add(mainPanel);
+			
+			//設定初始畫面
+			cardLayout.show(mainPanel, "maintenancePanel");
+			
+			setVisible(true);
 	}
+	//獲得CardLayout，別的畫面的跳回按鍵用這兩個
+	//e.g:getCardLayout().show(getMainPanel(),"你想要的畫面");
+	public static CardLayout getCardLayout() {
+		return cardLayout;
+	}
+	public static JPanel getMainPanel() {
+		return mainPanel;
+	}
+}

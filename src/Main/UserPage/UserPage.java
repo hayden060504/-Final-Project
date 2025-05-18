@@ -103,7 +103,7 @@ public class UserPage {
         reportBtn.setOnAction(e -> new ReportPage());
         checkBtn.setOnAction(e -> new CheckPage());
         mapBtn.setOnAction(e -> new MapPage());
-        QABtn.setOnAction(e -> new QAPage());
+        QABtn.setOnAction(e -> new QAPageForUser());
 
         rightPanel.getChildren().addAll(reportBtn, checkBtn, mapBtn, QABtn);
 

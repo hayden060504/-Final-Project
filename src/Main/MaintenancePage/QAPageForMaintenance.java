@@ -26,14 +26,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-public class QASettingPanel extends JPanel {
+public class QAPageForMaintenance extends JPanel {
 	private JLabel title;
 	private JFXPanel jfxPanel;
 	private Button addNew;
 	private ArrayList<String> questions;
 	private ArrayList<String> answers;
 
-	public QASettingPanel() {
+	public QAPageForMaintenance() {
 
 		setLayout(new BorderLayout());
 		// Title set
