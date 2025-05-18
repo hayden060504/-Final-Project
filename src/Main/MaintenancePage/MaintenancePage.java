@@ -22,6 +22,7 @@ public class MaintenancePage extends JFrame {
 			setTitle("Maintenance");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setSize(400, 300);
+			setLocationRelativeTo(null);
 			//主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
 			cardLayout = new CardLayout();
 			mainPanel = new JPanel(cardLayout);
@@ -50,13 +51,14 @@ public class MaintenancePage extends JFrame {
 			// 在同一個視窗內，改畫面，不要再跳一個新視窗了
 			// 不要再用new那個class了
 			//創建每個畫面，並加入mainPanel
-			mainPanel.add(maintenancePanel,"maintenancePanel");
+			mainPanel.add(maintenancePanel,"MaintenancePage");
 			mainPanel.add(new SchedulePage(),"SchedulePage");
 			mainPanel.add(new MaintenanceAcceptPage(),"MaintenanceAcceptPage");
 			mainPanel.add(new QAPageForMaintenance(),"QAPageForMaintenance");
 			
 			//設定切換畫面
-			repairButton.addActionListener(e -> cardLayout.show(mainPanel, "SchedulePage"));
+			repairButton.addActionListener(e -> {cardLayout.show(mainPanel, "SchedulePage");
+												 setTitle("Q&A");}); //設置title
 			systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 			qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
 			
@@ -64,7 +66,7 @@ public class MaintenancePage extends JFrame {
 			add(mainPanel);
 			
 			//設定初始畫面
-			cardLayout.show(mainPanel, "maintenancePanel");
+			cardLayout.show(mainPanel, "MaintenancePage");
 			
 			setVisible(true);
 	}

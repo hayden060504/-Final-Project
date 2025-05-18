@@ -1,16 +1,14 @@
 package Main.MaintenancePage;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -19,15 +17,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
 
 public class QAPageForMaintenance extends JPanel {
-	private JLabel title;
 	private JFXPanel jfxPanel;
 	private Button addNew;
 	private ArrayList<String> questions;
@@ -36,15 +37,9 @@ public class QAPageForMaintenance extends JPanel {
 	public QAPageForMaintenance() {
 
 		setLayout(new BorderLayout());
-		// Title set
-		title = new JLabel("Q&A");
-		title.setFont(new Font("Microsoft JhengHei", Font.BOLD, 40));
-
-		JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // 置中對齊
-		titlePanel.add(title);
-		add(titlePanel, BorderLayout.NORTH);
+		
 		// 初始化 JFXPanel
-		JFXPanel jfxPanel = new JFXPanel();
+		jfxPanel = new JFXPanel();
 		add(jfxPanel, BorderLayout.CENTER);
 
 		// 啟動 JavaFX UI
@@ -53,26 +48,34 @@ public class QAPageForMaintenance extends JPanel {
 	}
 
 	private void initFX(JFXPanel fxPanel) {
-	    Accordion accordion = new Accordion();
 	    VBox contentBox = new VBox(10);
 	    contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
 
 	    // [1] 標題列 + 新增按鈕
 	    HBox headerBox = new HBox();
 	    headerBox.setSpacing(10);
-	    headerBox.setStyle("-fx-alignment: center-right;");
+	    headerBox.setAlignment(Pos.CENTER_LEFT);
 
-	    Button addNewBtn = new Button("➕ 新增問題");
-	    addNewBtn.setOnAction(e -> {
-	        // 模擬新增問題
-	        int num = accordion.getPanes().size() + 1;
-	        TitledPane newPane = createQuestionPane("❓ New Question " + num, "This is a new answer.");
-	        accordion.getPanes().add(newPane);
-	    });
+	    // 建立標題 Label
+	    Label titleLabel = new Label("Q&A");
+	    titleLabel.setFont(Font.font("Microsoft JhengHei", FontWeight.BOLD, 40));
 
-	    headerBox.getChildren().add(addNewBtn);
+	    // 加上彈性空間（把右邊的按鈕推到右邊）
+	    Region spacer = new Region();
+	    HBox.setHgrow(spacer, Priority.ALWAYS);
+
+	    // 新增按鈕
+	    Button addNewBtn = new Button("新增問題");
+
+	    
+	    
+	    // 加到 HBox（順序很重要）
+	    headerBox.getChildren().addAll(titleLabel, spacer, addNewBtn);
+
 	    contentBox.getChildren().add(headerBox);
-
+	    
+	    
+	    Accordion accordion = new Accordion();
 
 	    for (int i = 1; i <= 2; i++) {
 	        TitledPane pane = createQuestionPane("問題" + i, "答案" + i);
@@ -88,6 +91,49 @@ public class QAPageForMaintenance extends JPanel {
 
 	    Scene scene = new Scene(scrollPane, 500, 400);
 	    fxPanel.setScene(scene);
+	    
+	  //返回按鈕
+	    HBox bottomBox = new HBox();
+	    bottomBox.setSpacing(10);
+	    bottomBox.setAlignment(Pos.CENTER_LEFT);
+	    
+	    Button returnBtn = new Button("返回");
+	    
+	    bottomBox.getChildren().add(returnBtn);
+	    
+	    contentBox.getChildren().add(bottomBox);
+	    
+	    //新增按鈕的反應
+	    addNewBtn.setOnAction(e -> {
+	        Dialog<Pair<String, String>> dialog = new Dialog<>();
+	        dialog.setTitle("新增 Q&A");
+	        dialog.setHeaderText("請輸入問題與答案");	        
+	        
+	        ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
+	        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+	        
+	     // 問題與答案輸入框
+	        TextField questionField = new TextField("問題");
+	        TextArea answerField = new TextArea("答案");
+
+	        VBox dialogContent = new VBox(10);
+	        dialogContent.setPadding(new Insets(10));
+	        dialogContent.getChildren().addAll(
+	            new Label("問題："), questionField,
+	            new Label("答案："), answerField
+	        );
+
+	        dialog.getDialogPane().setContent(dialogContent);
+
+	        dialog.showAndWait();
+
+	        TitledPane newPane = createQuestionPane(questionField.getText(),answerField.getText());
+	        accordion.getPanes().add(newPane);
+	    });
+	    
+	    returnBtn.setOnAction(e ->{
+	    	MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
+	    });
 	}
 	
 	private TitledPane createQuestionPane(String question, String answer) {
@@ -153,6 +199,8 @@ public class QAPageForMaintenance extends JPanel {
 
 	    return pane;
 	}
+	
+	
 
 
 }
