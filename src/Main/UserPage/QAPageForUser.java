@@ -98,35 +98,7 @@ public class QAPageForUser extends JPanel {
 	    
 	    bottomBox.getChildren().add(returnBtn);
 	    
-	    contentBox.getChildren().add(bottomBox);
-	    
-	    //新增按鈕的反應
-	    addNewBtn.setOnAction(e -> {
-	        Dialog<Pair<String, String>> dialog = new Dialog<>();
-	        dialog.setTitle("新增 Q&A");
-	        dialog.setHeaderText("請輸入問題與答案");	        
-	        
-	        ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
-	        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
-	        
-	     // 問題與答案輸入框
-	        TextField questionField = new TextField("問題");
-	        TextArea answerField = new TextArea("答案");
-
-	        VBox dialogContent = new VBox(10);
-	        dialogContent.setPadding(new Insets(10));
-	        dialogContent.getChildren().addAll(
-	            new Label("問題："), questionField,
-	            new Label("答案："), answerField
-	        );
-
-	        dialog.getDialogPane().setContent(dialogContent);
-
-	        dialog.showAndWait();
-
-	        TitledPane newPane = createQuestionPane(questionField.getText(),answerField.getText());
-	        accordion.getPanes().add(newPane);
-	    });
+	    contentBox.getChildren().add(bottomBox);	    
 	    
 	    returnBtn.setOnAction(e ->{
 	    	UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
