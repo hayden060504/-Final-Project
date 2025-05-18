@@ -29,6 +29,15 @@ public class MaintenanceAcceptPage extends JPanel {
        reportListPanel.setLayout(new BoxLayout(reportListPanel, BoxLayout.Y_AXIS));
        JScrollPane scrollPane = new JScrollPane(reportListPanel);
        add(scrollPane, BorderLayout.CENTER);
+       
+       //回上一頁的按鈕(右下角)
+       JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+       JButton backButton = new JButton("返回");
+       backButton.addActionListener(e -> {
+           MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
+       });
+       bottomPanel.add(backButton);
+       add(bottomPanel, BorderLayout.SOUTH); 
       
        //載入未接受的案件
        loadUnacceptedReports();
