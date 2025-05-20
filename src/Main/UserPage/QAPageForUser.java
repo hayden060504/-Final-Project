@@ -1,5 +1,7 @@
 package Main.UserPage;
 
+import java.sql.*;
+
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
@@ -30,14 +32,19 @@ import javafx.util.Pair;
 
 public class QAPageForUser extends JPanel {
 	private JFXPanel jfxPanel;
-	private Button addNew;
+	private Accordion accordion;
 	private ArrayList<String> questions;
 	private ArrayList<String> answers;
+	private String server = "jdbc:mysql://140.119.19.73:3315/";
+	private String database = "TG09"; // change to your own database
+	private String url = server + database + "?useSSL=false";
+	private String username = "TG09"; // change to your own username
+	private String password = "hGykqi"; // change to your own password
 
 	public QAPageForUser() {
 
 		setLayout(new BorderLayout());
-		
+
 		// 初始化 JFXPanel
 		jfxPanel = new JFXPanel();
 		add(jfxPanel, BorderLayout.CENTER);
@@ -48,55 +55,127 @@ public class QAPageForUser extends JPanel {
 	}
 
 	private void initFX(JFXPanel fxPanel) {
-	    VBox contentBox = new VBox(10);
-	    contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
+		VBox contentBox = new VBox(10);
+		contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
 
-	    // [1] 標題列 + 新增按鈕
-	    HBox headerBox = new HBox();
-	    headerBox.setSpacing(10);
-	    headerBox.setAlignment(Pos.CENTER_LEFT);
+		// [1] 標題列 + 新增按鈕
+		HBox headerBox = new HBox();
+		headerBox.setSpacing(10);
+		headerBox.setAlignment(Pos.CENTER_LEFT);
 
-	    // 建立標題 Label
-	    Label titleLabel = new Label("Q&A");
-	    titleLabel.setFont(Font.font("Microsoft JhengHei", FontWeight.BOLD, 40));
+		// 建立標題 Label
+		Label titleLabel = new Label("Q&A");
+		titleLabel.setFont(Font.font("Microsoft JhengHei", FontWeight.BOLD, 40));
 
-	    
+		// 加上彈性空間（把右邊的按鈕推到右邊）
+		Region spacer = new Region();
+		HBox.setHgrow(spacer, Priority.ALWAYS);
+		
+		//重新載入按鈕
+		Button reloadBtn = new Button("重載");
 
-	    
+		// 加到 HBox（順序很重要）
+		headerBox.getChildren().addAll(titleLabel, spacer, reloadBtn);
 
-	    
-	    
-	    // 加到 HBox（順序很重要）
-	    headerBox.getChildren().addAll(titleLabel);
+		contentBox.getChildren().add(headerBox);
 
-	    contentBox.getChildren().add(headerBox);
-	    
-	    
-	    Accordion accordion = new Accordion();
+		accordion = new Accordion();
 
-	    contentBox.getChildren().add(accordion);
+		// 示範用
+		/*
+		 * for (int i = 1; i <= 2; i++) { TitledPane pane = createQuestionPane("問題" + i,
+		 * "答案" + i); accordion.getPanes().add(pane); }
+		 */
 
-	    // [3] 放進 ScrollPane
-	    ScrollPane scrollPane = new ScrollPane(contentBox);
-	    scrollPane.setFitToWidth(true);
-	    scrollPane.setStyle("-fx-background: #ffffff;");
+		contentBox.getChildren().add(accordion);
 
-	    Scene scene = new Scene(scrollPane, 500, 400);
-	    fxPanel.setScene(scene);
-	    
-	  //返回按鈕
-	    HBox bottomBox = new HBox();
-	    bottomBox.setSpacing(10);
-	    bottomBox.setAlignment(Pos.CENTER_LEFT);
-	    
-	    Button returnBtn = new Button("返回");
-	    
-	    bottomBox.getChildren().add(returnBtn);
-	    
-	    contentBox.getChildren().add(bottomBox);	    
-	    
-	    returnBtn.setOnAction(e ->{
-	    	UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
-	    });
+		// [3] 放進 ScrollPane
+		ScrollPane scrollPane = new ScrollPane(contentBox);
+		scrollPane.setFitToWidth(true);
+		scrollPane.setStyle("-fx-background: #ffffff;");
+
+		Scene scene = new Scene(scrollPane, 500, 400);
+		fxPanel.setScene(scene);
+
+		// 底部欄位
+		HBox bottomBox = new HBox();
+		bottomBox.setSpacing(10);
+		bottomBox.setAlignment(Pos.CENTER_LEFT);
+
+		// 返回按鈕
+		Button returnBtn = new Button("返回");
+
+		bottomBox.getChildren().add(returnBtn);
+
+		contentBox.getChildren().add(bottomBox);
+
+		// 載入資料庫
+		load();
+
+		// 返回按鈕的反應
+		returnBtn.setOnAction(e -> {
+			UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
+		});
+		
+		//
+		reloadBtn.setOnAction(e->{
+			load();
+		});
+	}
+
+	// 新增問題和答案以及修改按鈕
+	private TitledPane createQuestionPane(String question, String answer) {
+		// 問題與答案的 Label
+		Label questionLabel = new Label(question);
+		Label answerLabel = new Label(answer);
+		answerLabel.setWrapText(true);
+		answerLabel.setMaxWidth(400);
+
+		// 標題區域（問題 + 修改鈕 + 刪除紐）
+		HBox titleBox = new HBox(10, questionLabel);
+		titleBox.setStyle("-fx-alignment: center-left;");
+		titleBox.setPadding(new Insets(5));
+
+		// 答案區域
+		VBox contentBox = new VBox(answerLabel);
+		contentBox.setPadding(new Insets(5));
+
+		// TitledPane
+		TitledPane pane = new TitledPane();
+		pane.setGraphic(titleBox);
+		pane.setContent(contentBox);
+
+		return pane;
+	}
+
+	private void load() {
+		accordion.getPanes().clear();
+		
+		String sql = "SELECT Question, Answer FROM `Q&A`"; // 請把 your_table_name 換成你的資料表名稱
+
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			System.out.println("DB Connected.");
+
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery(sql);
+
+			while (rs.next()) {
+				String question = rs.getString("Question");
+				String answer = rs.getString("Answer");
+
+				// 創造面板
+				TitledPane pane = createQuestionPane(question, answer);
+
+				// 加入至面板
+				accordion.getPanes().add(pane);
+			}
+
+			stat.close();
+
+			System.out.println("Data Loaded.");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
