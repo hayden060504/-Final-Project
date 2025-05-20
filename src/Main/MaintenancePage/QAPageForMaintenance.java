@@ -73,9 +73,12 @@ public class QAPageForMaintenance extends JPanel {
 
 		// 新增按鈕
 		Button addNewBtn = new Button("新增問題");
+		
+		//重新載入按鈕
+		Button reloadBtn = new Button("重載");
 
 		// 加到 HBox（順序很重要）
-		headerBox.getChildren().addAll(titleLabel, spacer, addNewBtn);
+		headerBox.getChildren().addAll(titleLabel, spacer, addNewBtn, reloadBtn);
 
 		contentBox.getChildren().add(headerBox);
 
@@ -144,6 +147,11 @@ public class QAPageForMaintenance extends JPanel {
 		// 返回按鈕的反應
 		returnBtn.setOnAction(e -> {
 			MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
+		});
+		
+		//
+		reloadBtn.setOnAction(e->{
+			load();
 		});
 	}
 
@@ -251,6 +259,8 @@ public class QAPageForMaintenance extends JPanel {
 	}
 
 	private void load() {
+		accordion.getPanes().clear();
+		
 		String sql = "SELECT Question, Answer FROM `Q&A`"; // 請把 your_table_name 換成你的資料表名稱
 
 		try (Connection conn = DriverManager.getConnection(url, username, password)) {
