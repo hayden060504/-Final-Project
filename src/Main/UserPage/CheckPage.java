@@ -69,7 +69,7 @@ public class CheckPage extends JPanel {
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
         	 // 建立 SQL 查詢指令
-            String query = "SELECT * FROM repair_reports WHERE report_id = ?";
+            String query = "SELECT * FROM reports WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, reportId); // 將輸入的報修 ID 傳入查詢條件
             // 執行查詢
