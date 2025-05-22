@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import Main.UserPage.UserPage;
+import Main.MaintenancePage.MaintenanceAcceptPage;
 
 public class LoginDialog extends JDialog {
     private boolean authenticated = false;
@@ -40,6 +42,14 @@ public class LoginDialog extends JDialog {
 
         pack();
         setLocationRelativeTo(parent);
+        
+        LoginDialog login = new LoginDialog(null, "user"); // 或 "admin"
+        login.setVisible(true);
+
+        if (login.isAuthenticated()) {
+            new UserPage(); // 🔥 登入成功後跳轉主頁
+        }
+
     }
 
     private boolean authenticate(String role, String username, String password) {

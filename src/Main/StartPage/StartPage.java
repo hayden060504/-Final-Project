@@ -2,8 +2,8 @@ package Main.StartPage;
 import javax.swing.*;
 
 
-import Main.UserPage.*;
-import Main.MaintenancePage.*;
+import Main.UserPage.UserPage;
+import Main.MaintenancePage.MaintenancePage;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,10 @@ import java.awt.event.ActionListener;
 
 public class StartPage extends JFrame{
     public StartPage() {
-    	setTitle("Start Page");
+    	
+    	System.out.println(new Main.UserPage.UserPage()); // 測試用
+
+    	setTitle("報修系統");
     	setSize(400, 300);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	//設定成絕對定位
@@ -34,12 +37,14 @@ public class StartPage extends JFrame{
     	gbc.gridx = 0; //第一個
         gbc.gridy = 0;
         add(userButton, gbc);
+        userButton.addActionListener(e -> openLogin("user"));
         
     	JButton maintenanceButton = new JButton("Maintenance Page");
     	styleMilkTeaButton(maintenanceButton);
     	gbc.gridx = 1; //第一個
         gbc.gridy = 0;
         add(maintenanceButton, gbc);
+        maintenanceButton.addActionListener(e -> openLogin("maintenance"));
            	
         userButton.addActionListener(e -> {
             LoginDialog login = new LoginDialog(this, "user");
@@ -63,6 +68,20 @@ public class StartPage extends JFrame{
     	setVisible(true);
     	
     	
+    }
+    
+    private static void openLogin(String role) {
+        LoginDialog login = new LoginDialog(null, role);
+        login.setVisible(true);
+
+        if (login.isAuthenticated()) {
+            if (role.equals("user")) {
+                new UserPage(); // 開啟使用者頁面
+            } else if (role.equals("maintenance")) {
+            	int id = login.getUserId();
+                new MaintenancePage(id); // 假設你有維修人員頁面
+            }
+        }
     }
     
     private void styleMilkTeaButton(JButton button) {
