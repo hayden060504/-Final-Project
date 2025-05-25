@@ -15,7 +15,7 @@ public class StartPage extends JFrame {
 		// System.out.println(new Main.UserPage.UserPage()); // 測試用
 
 		setTitle("報修系統");
-		setSize(400, 300);
+		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 設定成絕對定位
 		setLayout(new GridBagLayout());

@@ -21,7 +21,7 @@ public class MaintenancePage extends JFrame {
 			//視窗的設定
 			setTitle("Maintenance");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setSize(400, 300);
+			setSize(800, 600);
 			setLocationRelativeTo(null);
 			//主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
 			cardLayout = new CardLayout();
