@@ -28,6 +28,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 public class ReportPage extends JPanel {
 	// 我用成自己的DATABASE了，之後改
 	String server = "jdbc:mysql://140.119.19.73:3315/TG09";
@@ -223,22 +226,51 @@ public class ReportPage extends JPanel {
 		ComboItem selectedLocation = (ComboItem) locationCombo.getSelectedItem();
 		String situation_description_upload = situation_description.getText();
 		String place_description_upload = place_description.getText();
+		String imagePath = null;
 
-		if (selectedCategory == null || selectedLocation == null || situation_description_upload.isBlank()
-				|| place_description_upload.isBlank()) {
-			JOptionPane.showMessageDialog(this, "請完整填寫所有欄位");
-			return;
-		}
+		if (selectedFile != null) {
+	        try {
+	            //建立 uploads 資料夾 (相對專案根目錄)
+	            File uploadDir = new File("uploads");
+	            if (!uploadDir.exists()) {
+	                uploadDir.mkdirs();
+	            }
 
-		String sql = "INSERT INTO reports (description_place, description_situation, category_id, location_id) VALUES(?, ?, ?, ?)";
+	            //重新命名檔案，避免重複，例：timestamp + 原檔名
+	            String newFileName = System.currentTimeMillis() + "_" + selectedFile.getName();
+	            File target = new File(uploadDir, newFileName);
+
+	            // 複製檔案
+	            Files.copy(selectedFile.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+	            //存相對路徑
+	            imagePath = "uploads/" + newFileName;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            JOptionPane.showMessageDialog(this, "圖片上傳失敗：" + e.getMessage());
+	            return;  //失敗就不要繼續送出
+	        }
+	    }
+		//知道選什麼
+		int categoryId = categoryCombo.getSelectedIndex(); // 假設index就是id，但建議改用 ComboItem
+	    int locationId = locationCombo.getSelectedIndex();
+
+	    // 基本欄位檢查
+	    if (categoryId <= 0 || locationId <= 0 || situation_description.getText().isBlank()
+	            || place_description.getText().isBlank()) {
+	        JOptionPane.showMessageDialog(this, "請完整填寫所有欄位");
+	        return;
+	    }
+		String sql = "INSERT INTO reports (description_place, description_situation, category_id, location_id, image_path) VALUES(?, ?, ?, ?, ?)";
 
 		try (Connection conn = DriverManager.getConnection(url, username, password);
-				PreparedStatement ps = conn.prepareStatement(sql)) {
+			PreparedStatement ps = conn.prepareStatement(sql)) {
 
 			ps.setString(1, place_description.getText());
 			ps.setString(2, situation_description.getText());
 			ps.setInt(3, selectedCategory.getId());
 			ps.setInt(4, selectedLocation.getId());
+			ps.setString(5, imagePath);
 
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(this, "送出成功");
