@@ -36,31 +36,37 @@ public class ReportPage extends JPanel {
 	String password = "pzwgt";
 	String url = server + database + "?useSSL=false&serverTimezone=UTC";
 
-	private JPanel leftPanel, rightPanel;
+	private JPanel mainPanel, leftPanel, rightPanel;
+	private JLabel title, placeLabel, situationLabel;
+	private JLabel reportStyle, placeStyle;
 	private JComboBox<String> locationCombo; // 學校地點
 	private JComboBox<String> categoryCombo; // 報修類型
 	private JTextArea situation_description; // 描述輸入
 	private JTextField place_description; // 地點輸入
 	private JButton submitBtn; // 送出按鈕
-	private JButton chooseFileBtn;
+	private JButton chooseFileBtn; // 選擇檔案按鈕
+	private JButton returnBtn;
 	private JLabel selectedFileLabel; // 顯示選擇的檔案
 	private File selectedFile;
-	
-	private Color inputBackColor = new Color(255, 235, 200);  // 主背景（左邊）
-	private Color backColor = new Color(253, 241, 220);  // 輸入框背景（右邊）
-	private Color btnBackColor = new Color(253, 225, 191);  // 按鈕背景
-	private Color inputTextColor = Color.DARK_GRAY;  // 輸入框文字
+
+	private Color inputBackColor = new Color(255, 235, 200); // 主背景（左邊）
+	private Color backColor = new Color(253, 241, 220); // 輸入框背景（右邊）
+	private Color btnBackColor = new Color(253, 225, 191); // 按鈕背景
+	private Color inputTextColor = Color.DARK_GRAY; // 輸入框文字
+
+	private Font insideWordFont = new Font("Microsoft JhengHei", Font.PLAIN, 20); // 文字大小
+	private Font titleFont = new Font("Microsoft JhengHei", Font.BOLD, 30); // 標題大小
 
 	public ReportPage() {
 
 		// 主頁面設計
 		setLayout(new BorderLayout());
-	    setBackground(backColor);
-	    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		setBackground(backColor);
+		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-	    //
-	    JPanel mainPanel = new JPanel(new BorderLayout());
-	    
+		// 初始化mainPanel
+		mainPanel = new JPanel(new BorderLayout());
+
 		// 左邊下拉選單區
 		leftPanel = new JPanel(new BorderLayout());
 		leftPanel.setBackground(backColor);
@@ -69,7 +75,7 @@ public class ReportPage extends JPanel {
 		// 之後想改成傳不需要轉整個檔案的
 		chooseFileBtn = new JButton("選擇圖片");
 		chooseFileBtn.setBackground(btnBackColor);
-		
+
 		chooseFileBtn.addActionListener(e -> {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setDialogTitle("上傳照片");
@@ -84,10 +90,10 @@ public class ReportPage extends JPanel {
 			}
 		});
 		selectedFileLabel = new JLabel("未選擇檔案");
-	    JPanel filePanel = new JPanel(new FlowLayout());
-	    filePanel.setBackground(backColor);  // 保持背景一致
-	    filePanel.add(chooseFileBtn,BorderLayout.NORTH);
-	    filePanel.add(selectedFileLabel,BorderLayout.SOUTH);
+		JPanel filePanel = new JPanel(new FlowLayout());
+		filePanel.setBackground(backColor); // 保持背景一致
+		filePanel.add(chooseFileBtn, BorderLayout.NORTH);
+		filePanel.add(selectedFileLabel, BorderLayout.SOUTH);
 
 		leftPanel.add(filePanel, BorderLayout.CENTER);
 
@@ -96,75 +102,77 @@ public class ReportPage extends JPanel {
 		locationCombo = new JComboBox<>();
 		categoryCombo.setBackground(btnBackColor);
 		locationCombo.setBackground(btnBackColor);
-		
+
 		// 左半邊的上半
 		JPanel upperPanel = new JPanel(new GridLayout(2, 2));
 
-		 upperPanel.setBackground(backColor);  // 背景與主背景一致
-		    upperPanel.add(new JLabel("報修類別:"));
-		    upperPanel.add(categoryCombo);
-		    upperPanel.add(new JLabel("故障地點:"));
-		    upperPanel.add(locationCombo);
+		upperPanel.setBackground(backColor); // 背景與主背景一致
+		reportStyle = new JLabel("報修類別:");
+		upperPanel.add(reportStyle);
+		upperPanel.add(categoryCombo);
+		placeStyle = new JLabel("故障地點:");
+		upperPanel.add(placeStyle);
+		upperPanel.add(locationCombo);
 
 		leftPanel.add(upperPanel, BorderLayout.NORTH);
-		
+
 		//
-		JButton returnBtn = new JButton("返回");
+		returnBtn = new JButton("返回");
 		returnBtn.setBackground(btnBackColor);
-		returnBtn.addActionListener(e-> UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage"));
+		returnBtn.addActionListener(e -> UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage"));
 		leftPanel.add(returnBtn, BorderLayout.SOUTH);
-		
-		//這個就可以得到圖片的路徑
+
+		// 這個就可以得到圖片的路徑
 		if (selectedFile != null) {
-		    String filePath = selectedFile.getAbsolutePath();
-		    // 這裡可以上傳圖片或儲存路徑到資料庫
-		    System.out.println("選擇的檔案路徑：" + filePath);
+			String filePath = selectedFile.getAbsolutePath();
+			// 這裡可以上傳圖片或儲存路徑到資料庫
+			System.out.println("選擇的檔案路徑：" + filePath);
 		}
 		// 右邊
 		rightPanel = new JPanel(new BorderLayout());
 		rightPanel.setBackground(backColor);
-		
-		JPanel centerPanel = new JPanel(new BorderLayout(2,1));
-		
-		centerPanel.setBackground(backColor);
-	    situation_description = new JTextArea(3, 20);
-	    situation_description.setBackground(inputBackColor);
-	    situation_description.setForeground(inputTextColor);
-	    centerPanel.add(new JLabel("問題描述："),BorderLayout.NORTH);
-	    centerPanel.add(new JScrollPane(situation_description),BorderLayout.CENTER);
-	    rightPanel.add(centerPanel,BorderLayout.CENTER);
 
-		JPanel northPanel = new JPanel(new GridLayout(1,2));
-	    northPanel.setBackground(backColor);
+		JPanel centerPanel = new JPanel(new BorderLayout(2, 1));
+
+		centerPanel.setBackground(backColor);
+		situation_description = new JTextArea(3, 20);
+		situation_description.setBackground(inputBackColor);
+		situation_description.setForeground(inputTextColor);
+		placeLabel = new JLabel("問題描述：");
+		centerPanel.add(placeLabel, BorderLayout.NORTH);
+		centerPanel.add(new JScrollPane(situation_description), BorderLayout.CENTER);
+		rightPanel.add(centerPanel, BorderLayout.CENTER);
+
+		JPanel northPanel = new JPanel(new GridLayout(1, 2));
+		northPanel.setBackground(backColor);
 		place_description = new JTextField(15);
 		place_description.setBackground(inputBackColor);
-		northPanel.add(new JLabel("地點描述："), BorderLayout.NORTH);
+		situationLabel = new JLabel("地點描述：");
+		northPanel.add(situationLabel, BorderLayout.NORTH);
 		northPanel.add(place_description);
 		rightPanel.add(northPanel, BorderLayout.NORTH);
 
 		submitBtn = new JButton("送出");
 		submitBtn.addActionListener(e -> insertReport());
-	    submitBtn.setBackground(btnBackColor);
-		rightPanel.add(submitBtn, BorderLayout.SOUTH);		
-		
+		submitBtn.setBackground(btnBackColor);
+		rightPanel.add(submitBtn, BorderLayout.SOUTH);
+
 		leftPanel.setMinimumSize(new Dimension(200, 0));
 		rightPanel.setMinimumSize(new Dimension(200, 0));
 
-
 		// 改成只用 splitPane
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-		splitPane.setContinuousLayout(true);  // 即時更新
+		splitPane.setContinuousLayout(true); // 即時更新
 		mainPanel.add(splitPane, BorderLayout.CENTER);
 
-		JLabel title = new JLabel("回報");
+		title = new JLabel("回報");
 		title.setBackground(backColor);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
-		title.setOpaque(true);  // 讓 JLabel 的背景色生效
-		title.setFont(new Font("微軟正黑體", Font.BOLD, 18));  // PLAIN 表示正常體，18 是字體大小
+		title.setOpaque(true); // 讓 JLabel 的背景色生效
 		title.setBorder(new EmptyBorder(0, 0, 10, 0));
 
-		mainPanel.add(title,BorderLayout.NORTH);
-		
+		mainPanel.add(title, BorderLayout.NORTH);
+
 		add(mainPanel);
 
 		// 大區域決定
@@ -190,6 +198,9 @@ public class ReportPage extends JPanel {
 		categoryCombo.addItem("冷氣/電風扇故障");
 		categoryCombo.addItem("洗衣機/烘衣機無法運作");
 		categoryCombo.addItem("燈具不亮");
+
+		// 設定字體大小
+		setFont();
 
 	}
 
@@ -240,12 +251,19 @@ public class ReportPage extends JPanel {
 		}
 
 	}
-	
-	private void btnStyle(JButton btn) {
-		btn.setBackground(new Color(210, 180, 140));
 
+	private void setFont() {
+		title.setFont(titleFont);
+		chooseFileBtn.setFont(insideWordFont);
+		placeLabel.setFont(insideWordFont);
+		situationLabel.setFont(insideWordFont);
+		selectedFileLabel.setFont(insideWordFont);
+		returnBtn.setFont(insideWordFont);
+		reportStyle.setFont(insideWordFont);
+		placeStyle.setFont(insideWordFont);
+		submitBtn.setFont(insideWordFont);
 	}
-	
+
 	static class ComboItem {
 		private int id;
 		private String name;
