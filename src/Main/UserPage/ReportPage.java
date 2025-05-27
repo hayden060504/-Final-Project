@@ -30,10 +30,10 @@ import javax.swing.border.EmptyBorder;
 
 public class ReportPage extends JPanel {
 	// 我用成自己的DATABASE了，之後改
-	String server = "jdbc:mysql://140.119.19.73:3315/";
-	String database = "113306020";
-	String username = "113306020";
-	String password = "pzwgt";
+	String server = "jdbc:mysql://140.119.19.73:3315/TG09";
+	String database = "TG09";
+	String username = "TG09";
+	String password = "hGykqi";
 	String url = server + database + "?useSSL=false&serverTimezone=UTC";
 
 	private JPanel mainPanel, leftPanel, rightPanel;
