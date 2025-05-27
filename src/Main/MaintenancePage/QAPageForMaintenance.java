@@ -173,6 +173,8 @@ public class QAPageForMaintenance extends JPanel {
 			Dialog<Pair<String, String>> dialog = new Dialog<>();
 			dialog.setTitle("修改 Q&A");
 			dialog.setHeaderText("請修改問題與答案");
+			
+			String originalQuestion = questionLabel.getText();
 
 			// 使用預設的 OK/Cancel 按鈕
 			ButtonType okButtonType = new ButtonType("確定", ButtonBar.ButtonData.OK_DONE);
@@ -202,7 +204,7 @@ public class QAPageForMaintenance extends JPanel {
 			});
 
 			// 上傳至資料庫
-			update(questionField.getText(), answerField.getText());
+			edit(questionField.getText(), answerField.getText(), originalQuestion);
 		});
 
 		// 刪除按鈕
@@ -252,6 +254,25 @@ public class QAPageForMaintenance extends JPanel {
 			stat.close();
 
 			System.out.println("Data updated.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+	}
+	
+	private void edit(String question, String ans, String originalQuestion) {
+
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			System.out.println("DB Connected");
+
+			Statement stat = conn.createStatement();
+			String query = String.format("UPDATE `Q&A` SET Question = '%s', Answer = '%s' WHERE Question = '%s'", question, ans, originalQuestion);
+
+			stat.execute(query);
+
+			stat.close();
+
+			System.out.println("Data edited.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 
