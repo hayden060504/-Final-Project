@@ -35,10 +35,12 @@ public class CheckPage extends JPanel {
     	
         setLayout(new BorderLayout());
         
+        //建立圖層Pane
         JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setLayout(null); // 自訂 layout
+        layeredPane.setLayout(null);
         add(layeredPane);
         
+        //建立主要面板
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBounds(0,0,getWidth(),getHeight());
         
@@ -69,6 +71,7 @@ public class CheckPage extends JPanel {
           
         layeredPane.add(mainPanel,JLayeredPane.DEFAULT_LAYER);
         
+        //返回按鈕
         JButton returnBtn = new JButton("返回");
         returnBtn.setSize(80, 30);
         layeredPane.add(returnBtn, JLayeredPane.MODAL_LAYER);
@@ -89,11 +92,12 @@ public class CheckPage extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                // 更新返回按鈕位置
                 int x = 10;
                 int y = 10;
+                //維持按鈕的位置
                 returnBtn.setLocation(x, y);
                 
+                //持續根據視窗大小改變大小
                 mainPanel.setBounds(0,0,getWidth(),getHeight());
             }
         });
