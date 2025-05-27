@@ -46,8 +46,7 @@ public class ReportPage extends JPanel {
 	private JComboBox<String> categoryCombo; // 報修類型
 	private JTextArea situation_description; // 描述輸入
 	private JTextField place_description; // 地點輸入
-	private JButton submitBtn; // 送出按鈕
-	private JButton chooseFileBtn; // 選擇檔案按鈕
+	private JButton submitBtn, chooseFileBtn; //按鈕
 	private JButton returnBtn;
 	private JLabel selectedFileLabel; // 顯示選擇的檔案
 	private File selectedFile;
@@ -277,6 +276,9 @@ public class ReportPage extends JPanel {
 
 			place_description.setText("");
 			situation_description.setText("");
+			selectedFile = null;
+			selectedFileLabel.setText("未選擇檔案");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "送出失敗" + e.getMessage());
