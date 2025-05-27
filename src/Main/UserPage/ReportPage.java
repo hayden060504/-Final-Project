@@ -32,7 +32,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class ReportPage extends JPanel {
-	// 我用成自己的DATABASE了，之後改
 	String server = "jdbc:mysql://140.119.19.73:3315/TG09";
 	String database = "TG09";
 	String username = "TG09";
@@ -42,8 +41,8 @@ public class ReportPage extends JPanel {
 	private JPanel mainPanel, leftPanel, rightPanel;
 	private JLabel title, placeLabel, situationLabel;
 	private JLabel reportStyle, placeStyle;
-	private JComboBox<String> locationCombo; // 學校地點
-	private JComboBox<String> categoryCombo; // 報修類型
+	private JComboBox<ComboItem> locationCombo; // 學校地點
+	private JComboBox<ComboItem> categoryCombo; // 報修類型
 	private JTextArea situation_description; // 描述輸入
 	private JTextField place_description; // 地點輸入
 	private JButton submitBtn, chooseFileBtn; //按鈕
@@ -177,30 +176,11 @@ public class ReportPage extends JPanel {
 
 		add(mainPanel);
 
-		// 大區域決定
-		locationCombo.addItem("請選擇");
-		locationCombo.addItem("山下校園");
-		locationCombo.addItem("山上校園");
-		locationCombo.addItem("山上宿舍");
-		locationCombo.addItem("山下宿舍");
-		// 報修類型
-		categoryCombo.addItem("請選擇");
-		categoryCombo.addItem("座椅損壞");
-		categoryCombo.addItem("水溝蓋鬆動或遺失");
-		categoryCombo.addItem("水龍頭損壞");
-		categoryCombo.addItem("插座/電燈不通電");
-		categoryCombo.addItem("門損壞");
-		categoryCombo.addItem("窗戶破裂");
-		categoryCombo.addItem("電梯異常");
-		categoryCombo.addItem("感應門異常、損壞");
-		categoryCombo.addItem("飲水機異常");
-		categoryCombo.addItem("桌椅損壞");
-		categoryCombo.addItem("網路中斷");
-		categoryCombo.addItem("垃圾桶破損");
-		categoryCombo.addItem("冷氣/電風扇故障");
-		categoryCombo.addItem("洗衣機/烘衣機無法運作");
-		categoryCombo.addItem("燈具不亮");
+		locationCombo.addItem(new ComboItem(-1, "請選擇地點"));
+		categoryCombo.addItem(new ComboItem(-1, "請選擇故障類型"));
 
+		loadComboBox(locationCombo, "location");
+		loadComboBox(categoryCombo, "categories");
 		// 設定字體大小
 		setFont();
 
@@ -223,6 +203,7 @@ public class ReportPage extends JPanel {
 	private void insertReport() {
 		ComboItem selectedCategory = (ComboItem) categoryCombo.getSelectedItem();
 		ComboItem selectedLocation = (ComboItem) locationCombo.getSelectedItem();
+		//之後沒用到可刪
 		String situation_description_upload = situation_description.getText();
 		String place_description_upload = place_description.getText();
 		String imagePath = null;
@@ -250,16 +231,7 @@ public class ReportPage extends JPanel {
 	            return;  //失敗就不要繼續送出
 	        }
 	    }
-		//知道選什麼
-		int categoryId = categoryCombo.getSelectedIndex(); // 假設index就是id，但建議改用 ComboItem
-	    int locationId = locationCombo.getSelectedIndex();
 
-	    // 基本欄位檢查
-	    if (categoryId <= 0 || locationId <= 0 || situation_description.getText().isBlank()
-	            || place_description.getText().isBlank()) {
-	        JOptionPane.showMessageDialog(this, "請完整填寫所有欄位");
-	        return;
-	    }
 		String sql = "INSERT INTO reports (description_place, description_situation, category_id, location_id, image_path) VALUES(?, ?, ?, ?, ?)";
 
 		try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -312,6 +284,10 @@ public class ReportPage extends JPanel {
 		}
 
 		public String getName() {
+			return name;
+		}
+		
+		public String toString() {
 			return name;
 		}
 	}
