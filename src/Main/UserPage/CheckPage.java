@@ -98,5 +98,24 @@ public class CheckPage extends JPanel {
 
         return result;
     }
+     //返回按鈕
+        private void initFX(JFXPanel fxPanel) {
+    	    VBox contentBox = new VBox(10);
+    	    contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
+
+	    HBox bottomBox = new HBox();
+	    bottomBox.setSpacing(10);
+	    bottomBox.setAlignment(Pos.CENTER_LEFT);
+	    
+	    Button returnBtn = new Button("返回");
+	    
+	    bottomBox.getChildren().add(returnBtn);
+	    
+	    contentBox.getChildren().add(bottomBox);	    
+	    
+	    returnBtn.setOnAction(e ->{
+	    	UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
+	    });
+    }
 
 }
