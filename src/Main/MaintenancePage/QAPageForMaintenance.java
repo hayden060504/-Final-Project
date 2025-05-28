@@ -5,6 +5,8 @@ import java.sql.*;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
+import Main.Style;
+
 import javax.swing.JPanel;
 
 import javafx.application.Platform;
@@ -30,7 +32,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
 
-public class QAPageForMaintenance extends JPanel {
+public class QAPageForMaintenance extends JPanel implements Style{
 	private JFXPanel jfxPanel;
 	private Accordion accordion;
 	private ArrayList<String> questions;
