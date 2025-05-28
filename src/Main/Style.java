@@ -9,5 +9,8 @@ public class Style {
 		label.setFont(new Font("Microsoft JhengHei",Font.BOLD,40));
 	}
 	
+	public static void buttonStyle() {
+		
+	}
 	
 }

@@ -36,15 +36,17 @@ public class MaintenancePage extends JFrame {
 			titleLabel.setBackground(new Color(255, 204, 204));
 			maintenancePanel.add(titleLabel, BorderLayout.NORTH);
 			//下方的三個按鈕和乘載的Panel
-			JPanel downPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+			JPanel downPanel = new JPanel(new GridLayout(1, 4, 10, 10));
 
 			JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
 			JButton systemButton = new JButton("<html>接案<br>系統</html>");
-			JButton qaButton = new JButton("Q&A");
+			JButton qaButton = new JButton("<html>設定<br>Q&A</html>");
+			JButton announceButton = new JButton("<html>發布<br>公告</html>");
 
 			downPanel.add(repairButton);
 			downPanel.add(systemButton);
 			downPanel.add(qaButton);
+			downPanel.add(announceButton);
 			
 			maintenancePanel.add(downPanel, BorderLayout.CENTER);
 
@@ -55,12 +57,14 @@ public class MaintenancePage extends JFrame {
 			mainPanel.add(new SchedulePage(),"SchedulePage");
 			mainPanel.add(new MaintenanceAcceptPage(maintenanceId),"MaintenanceAcceptPage");
 			mainPanel.add(new QAPageForMaintenance(),"QAPageForMaintenance");
+			mainPanel.add(new AnnouncePage(),"AnnouncePage");
 			
 			//設定切換畫面
 			repairButton.addActionListener(e -> {cardLayout.show(mainPanel, "SchedulePage");
 												 setTitle("SchedulePage");}); //設置title
 			systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 			qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
+			announceButton.addActionListener(e-> cardLayout.show(mainPanel, "AnnouncePage"));
 			
 			//加到JFrame
 			add(mainPanel);
