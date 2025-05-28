@@ -241,6 +241,7 @@ public class QAPageForMaintenance extends JPanel {
 		return pane;
 	}
 
+	//上傳資料
 	private void update(String question, String ans) {
 
 		try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -260,6 +261,7 @@ public class QAPageForMaintenance extends JPanel {
 		}
 	}
 	
+	//修改資料
 	private void edit(String question, String ans, String originalQuestion) {
 
 		try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -279,6 +281,7 @@ public class QAPageForMaintenance extends JPanel {
 		}
 	}
 
+	//讀取資料
 	private void load() {
 		accordion.getPanes().clear();
 		
