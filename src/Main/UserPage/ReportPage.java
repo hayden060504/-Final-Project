@@ -32,7 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class ReportPage extends JPanel {
-	String server = "jdbc:mysql://140.119.19.73:3315/TG09";
+	String server = "jdbc:mysql://140.119.19.73:3315/";
 	String database = "TG09";
 	String username = "TG09";
 	String password = "hGykqi";
