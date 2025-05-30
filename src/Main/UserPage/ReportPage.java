@@ -36,7 +36,7 @@ public class ReportPage extends JPanel {
 	String database = "TG09";
 	String username = "TG09";
 	String password = "hGykqi";
-	String url = server + database + "?useSSL=false&serverTimezone=UTC";
+	String url = server + "?useSSL=false&serverTimezone=UTC";
 
 	private JPanel mainPanel, leftPanel, rightPanel;
 	private JLabel title, placeLabel, situationLabel;

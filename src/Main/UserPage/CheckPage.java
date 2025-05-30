@@ -103,7 +103,12 @@ public class CheckPage extends JPanel {
         });
     }
     
-
+    public void performQuery(String reportId) {
+        idInput.setText(reportId);
+        String result = getReportStatusFromDB(reportId);
+        resultArea.setText(result);
+    }
+    
     // 從資料庫查詢報修狀態
     private String getReportStatusFromDB(String reportId) {
         String result = "";
@@ -117,16 +122,25 @@ public class CheckPage extends JPanel {
             ResultSet rs = stmt.executeQuery();
             // 若有查到結果
             if (rs.next()) {
-                String status = rs.getString("status");
-                String updated = rs.getString("last_updated");
-                String location = rs.getString("location");
-                String tech = rs.getString("technician");
+                String id = rs.getString("id");// String status = rs.getString("status");
+                String description_situation = rs.getString("description_situation");
+                String description_place = rs.getString("description_place");
+                String created_at = rs.getString("created_at");
+                
+             // user查詢時，更新在reports裡的查詢次數
+                PreparedStatement updateStmt = conn.prepareStatement(
+                    "UPDATE reports SET query_count = query_count + 1 WHERE id = ?"
+                );
+                updateStmt.setString(1, reportId);
+                updateStmt.executeUpdate();
                
                 result = "Report ID: " + reportId + "\n" +
-                         "Status: " + status + "\n" +
-                         "Last Updated: " + updated + "\n" +
-                         "Location: " + location + "\n" +
-                         "Technician: " + tech;
+                         "ID: " + id + "\n" + 
+                         "Description_Situation: " + description_situation + "\n" +
+                         "Description_Place: " + description_place + "\n"+
+                         "Created_At: " + created_at + "\n";
+
+                UserPage.updateTopQueriedReports();	  // 更新UserPage的熱門查詢
             } else {
             	// 沒查到任何資料
                 result = "No report found for ID: " + reportId;

@@ -1,5 +1,26 @@
 package Main.UserPage;
 import java.awt.CardLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +40,11 @@ import javafx.scene.layout.VBox;
 public class UserPage {
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
+	private static VBox progressBoxContent;
+	
+	static String url = "jdbc:mysql://140.119.19.73:3315/TG09";
+	static String dbUser = "TG09";
+	static String dbPassword = "hGykqi";
 
     public UserPage() {
         	JFrame frame = new JFrame("User Page");
@@ -88,11 +114,10 @@ public class UserPage {
                 "-fx-background-radius: 8; " +
                 "-fx-background-color: white;");
         Label progressLabel = new Label("<熱門維修進度查詢>");
-        TextArea progressArea = new TextArea("1. case A\n2. case B\n3. case C");
-        progressArea.setEditable(false);
-        progressArea.setWrapText(true);
-        progressArea.setPrefHeight(200);
-        ScrollPane progressScroll = new ScrollPane(progressArea);
+        
+        progressBoxContent = new VBox(10); 
+        
+        ScrollPane progressScroll = new ScrollPane(progressBoxContent);
         progressScroll.setFitToWidth(true);
         progressScroll.setPrefHeight(240);
         progressBox.getChildren().addAll(progressLabel, progressScroll);
@@ -108,10 +133,9 @@ public class UserPage {
 
         Button reportBtn = new Button("我要報修");
         Button checkBtn = new Button("進度查詢");
-        Button mapBtn = new Button("地圖");
         Button QABtn = new Button("Q&A");
 
-        for (Button btn : new Button[]{reportBtn, checkBtn, mapBtn, QABtn}) {
+        for (Button btn : new Button[]{reportBtn, checkBtn, QABtn}) {
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setStyle(
                     "-fx-background-color: #ffcc99;" +
@@ -126,10 +150,9 @@ public class UserPage {
         //按按鈕換到新Page
         reportBtn.setOnAction(e -> cardLayout.show(mainPanel, "ReportPage"));
         checkBtn.setOnAction(e -> cardLayout.show(mainPanel, "CheckPage"));
-        mapBtn.setOnAction(e -> cardLayout.show(mainPanel, "MapPage"));
         QABtn.setOnAction(e -> cardLayout.show(mainPanel, "QAPageForUser"));
 
-        rightPanel.getChildren().addAll(reportBtn, checkBtn, mapBtn, QABtn);
+        rightPanel.getChildren().addAll(reportBtn, checkBtn, QABtn);
 
         //左右邊合起來
         HBox content = new HBox(leftPanel, rightPanel);
@@ -149,4 +172,47 @@ public class UserPage {
   	public static JPanel getMainPanel() {
   		return mainPanel;
   	}
-}
+  	
+  	 public static void updateTopQueriedReports() {
+  		Platform.runLater(() -> {	//原本跑error但加這個就好了，跟上次有點像但不完全一樣
+             progressBoxContent.getChildren().clear();	//把舊排名清掉
+             try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
+                 String query = "SELECT id, query_count FROM reports ORDER BY query_count DESC LIMIT 10";	//選查詢次數最多的前10筆
+                 PreparedStatement stmt = conn.prepareStatement(query);
+                 ResultSet rs = stmt.executeQuery();
+
+                 int rank = 1;
+                 while (rs.next()) {
+                     String id = rs.getString("id");
+                     int count = rs.getInt("query_count");
+                     String buttonText = rank + ". Report ID: " + id;
+                     //用link
+                     Hyperlink reportLink = new Hyperlink(buttonText);
+                     reportLink.setOnAction(e -> {
+                         cardLayout.show(mainPanel, "CheckPage");
+                         CheckPage cp = (CheckPage) getComponentByName("CheckPage");
+                         if (cp != null) {
+                             cp.performQuery(id);
+                         }
+                     });
+                     progressBoxContent.getChildren().add(reportLink);
+                     rank++;
+                 }
+             } catch (SQLException e) {
+                 Button errorBtn = new Button("Error fetching top queries: " + e.getMessage());
+                 progressBoxContent.getChildren().add(errorBtn);
+             }
+  		});
+  		
+     }
+
+  	 //從userpage跳去checkpage (讓cardLayout切換)
+     private static JPanel getComponentByName(String name) {
+         for (int i = 0; i < mainPanel.getComponentCount(); i++) {
+             if (mainPanel.getComponent(i).getClass().getSimpleName().equals(name)) {
+                 return (JPanel) mainPanel.getComponent(i);
+             }
+         }
+         return null;
+     }
+ }
