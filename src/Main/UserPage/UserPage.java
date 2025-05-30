@@ -41,6 +41,7 @@ public class UserPage {
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
 	private static VBox progressBoxContent;
+	private static TextArea noticeArea;
 	
 	static String url = "jdbc:mysql://140.119.19.73:3315/TG09";
 	static String dbUser = "TG09";
@@ -95,7 +96,8 @@ public class UserPage {
                 "-fx-background-radius: 8; " +
                 "-fx-background-color: white;");
         Label noticeLabel = new Label("<最新公告>");
-        TextArea noticeArea = new TextArea("公告 1\n公告 2\n公告 3");
+        
+        noticeArea = new TextArea();
         noticeArea.setEditable(false);
         noticeArea.setWrapText(true);
         noticeArea.setPrefHeight(200);
@@ -103,6 +105,9 @@ public class UserPage {
         noticeScroll.setFitToWidth(true);
         noticeScroll.setPrefHeight(240);
         noticeBox.getChildren().addAll(noticeLabel, noticeScroll);
+        
+        //載入公告
+        updateLatestAnnouncements();
 
         //熱門維修進度查詢
         VBox progressBox = new VBox(20);
@@ -123,6 +128,9 @@ public class UserPage {
         progressBox.getChildren().addAll(progressLabel, progressScroll);
 
         leftPanel.getChildren().addAll(noticeBox, progressBox);
+        
+        //載入熱門查詢
+        updateTopQueriedReports();
 
         //右邊的按鈕們
         VBox rightPanel = new VBox(40);
@@ -145,8 +153,6 @@ public class UserPage {
                     "-fx-font-weight: bold;");
         }
 
-        
-        
         //按按鈕換到新Page
         reportBtn.setOnAction(e -> cardLayout.show(mainPanel, "ReportPage"));
         checkBtn.setOnAction(e -> cardLayout.show(mainPanel, "CheckPage"));
@@ -159,6 +165,29 @@ public class UserPage {
         VBox root = new VBox(content);
 
         return new Scene(root);
+    }
+    
+    
+    public static void updateLatestAnnouncements() {
+        Platform.runLater(() -> {
+            StringBuilder announcements = new StringBuilder();
+            try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
+            	//從資料庫Announce表中抓前10筆
+                String query = "SELECT Title, Content FROM Announce ORDER BY ID DESC LIMIT 10"; // 最新10筆
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    String title = rs.getString("Title");
+                    String content = rs.getString("Content");
+                    announcements.append("【").append(title).append("】\n")	//標題
+                                 .append(content).append("\n\n");	//內容(想說既然有內容就順便放上來好了)
+                }
+                noticeArea.setText(announcements.toString()); //放到最新公告的TextArea，就結束了!!!
+            } catch (SQLException e) {
+                noticeArea.setText("公告載入失敗: " + e.getMessage());
+            }
+        });
     }
     
   //獲得CardLayout，別的畫面的跳回按鍵用這兩個
