@@ -1,83 +1,88 @@
 package Main.UserPage;
+
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class CheckPage extends JPanel {
 
-    private JTextField idInput; // 用戶輸入報修ID的欄位
+    private JTextField idInput;  // 用戶輸入報修 ID 的欄位
     private JTextArea resultArea;  // 顯示查詢結果的區域
 
     // 資料庫連線參數
-    private static final String DB_URL = "jdbc:mysql://140.119.19.73:3315/TG09"; 
-    private static final String DB_USER = "TG09"; 
-    private static final String DB_PASSWORD = "hGykqi"; 
-    //設計整個查詢頁面的 UI
+    private static final String DB_URL = "jdbc:mysql://140.119.19.73:3315/TG09";
+    private static final String DB_USER = "TG09";
+    private static final String DB_PASSWORD = "hGykqi";
+
     public CheckPage() {
-    	
         setLayout(new BorderLayout());
-        
-        //建立圖層Pane
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setLayout(null);
-        add(layeredPane);
-        
-        //建立主要面板
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBounds(0,0,getWidth(),getHeight());
-        
-        // 標題文字設定
+
+        // 建立主面板，使用 BoxLayout 讓元件垂直排列
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30)); // 整體上下左右留白
+
+        // ===== 標題 =====
         JLabel titleLabel = new JLabel("Check Maintenance Progress");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
-        // 中間輸入區域
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT); // 置中
+        mainPanel.add(titleLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20))); // 標題下方留白
+
+        // ===== 中間輸入區塊 =====
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new FlowLayout());
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        inputPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         JLabel idLabel = new JLabel("Enter Report ID:");
+        idLabel.setAlignmentX(CENTER_ALIGNMENT);
+
         idInput = new JTextField(15);
+        idInput.setMaximumSize(new Dimension(200, 25)); // 設定最大寬度
+        idInput.setAlignmentX(CENTER_ALIGNMENT);
+
         JButton checkButton = new JButton("Check");
-        // 將元件加到輸入區塊
+        checkButton.setAlignmentX(CENTER_ALIGNMENT);
+
+        // 將元件與間距加進 inputPanel
         inputPanel.add(idLabel);
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         inputPanel.add(idInput);
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         inputPanel.add(checkButton);
-        mainPanel.add(inputPanel, BorderLayout.CENTER);
-        // 建立顯示結果的文字區域（不可編輯）
+
+        mainPanel.add(inputPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20))); // 輸入區下方留白
+
+        // ===== 顯示結果區域 =====
         resultArea = new JTextArea(8, 30);
         resultArea.setEditable(false);
-        resultArea.setLineWrap(true);// 自動換行
-        resultArea.setWrapStyleWord(true);// 單詞換行
-        JScrollPane scrollPane = new JScrollPane(resultArea);// 可捲動
-        mainPanel.add(scrollPane, BorderLayout.SOUTH);
-          
-        layeredPane.add(mainPanel,JLayeredPane.DEFAULT_LAYER);
-        
-        //返回按鈕
+        resultArea.setLineWrap(true);
+        resultArea.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(resultArea);
+        mainPanel.add(scrollPane);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20))); // 結果區下方留白
+
+        // ===== 返回按鈕區域（靠左）=====
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton returnBtn = new JButton("返回");
-        returnBtn.setSize(80, 30);
-        layeredPane.add(returnBtn, JLayeredPane.MODAL_LAYER);
-        returnBtn.setLocation(10, 360); 
-        
-        // 查詢按鈕被點擊時執行的動作
+        bottomPanel.add(returnBtn);
+        mainPanel.add(bottomPanel);
+
+        // 加入主面板到 CheckPage
+        add(mainPanel, BorderLayout.CENTER);
+
+        // ===== 按鈕事件處理 =====
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,52 +107,51 @@ public class CheckPage extends JPanel {
             }
         });
     }
-    
+
+    // 外部可呼叫查詢功能
     public void performQuery(String reportId) {
         idInput.setText(reportId);
         String result = getReportStatusFromDB(reportId);
         resultArea.setText(result);
     }
-    
-    // 從資料庫查詢報修狀態
+
+    // 資料庫查詢報修進度
     private String getReportStatusFromDB(String reportId) {
         String result = "";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-        	 // 建立 SQL 查詢指令
+            // 建立 SQL 查詢
             String query = "SELECT * FROM reports WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, reportId); // 將輸入的報修 ID 傳入查詢條件
-            // 執行查詢
+            stmt.setString(1, reportId);
+
             ResultSet rs = stmt.executeQuery();
-            // 若有查到結果
+
             if (rs.next()) {
-                String id = rs.getString("id");// String status = rs.getString("status");
+                String id = rs.getString("id");
                 String description_situation = rs.getString("description_situation");
                 String description_place = rs.getString("description_place");
                 String created_at = rs.getString("created_at");
-                
-             // user查詢時，更新在reports裡的查詢次數
+
+                // 更新查詢次數
                 PreparedStatement updateStmt = conn.prepareStatement(
-                    "UPDATE reports SET query_count = query_count + 1 WHERE id = ?"
-                );
+                        "UPDATE reports SET query_count = query_count + 1 WHERE id = ?");
                 updateStmt.setString(1, reportId);
                 updateStmt.executeUpdate();
-               
-                result = "Report ID: " + reportId + "\n" +
-                         "ID: " + id + "\n" + 
-                         "Description_Situation: " + description_situation + "\n" +
-                         "Description_Place: " + description_place + "\n"+
-                         "Created_At: " + created_at + "\n";
 
-                UserPage.updateTopQueriedReports();	  // 更新UserPage的熱門查詢
+                result = "Report ID: " + reportId + "\n" +
+                        "ID: " + id + "\n" +
+                        "Description_Situation: " + description_situation + "\n" +
+                        "Description_Place: " + description_place + "\n" +
+                        "Created_At: " + created_at + "\n";
+
+                // 更新熱門查詢
+                UserPage.updateTopQueriedReports();
             } else {
-            	// 沒查到任何資料
                 result = "No report found for ID: " + reportId;
             }
 
         } catch (SQLException e) {
-        	// 錯誤處理：顯示例外訊息
             result = "Error: " + e.getMessage();
         }
 

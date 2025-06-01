@@ -32,14 +32,17 @@ public class StartPage extends JFrame {
 		// 讓按鈕隨視窗變動(y軸變大變小比例1:1)
 		gbc.weighty = 1.0;
 
-		JButton userButton = new JButton("使用者頁面");
+
+		JButton userButton = new JButton("使用者");
+
 		styleMilkTeaButton(userButton);
 		gbc.gridx = 0; // 第一個
 		gbc.gridy = 0;
 		add(userButton, gbc);
 		userButton.addActionListener(e -> openLogin("user"));
 
-		JButton maintenanceButton = new JButton("維修人員頁面");
+
+		JButton maintenanceButton = new JButton("維修人員");
 		styleMilkTeaButton(maintenanceButton);
 		gbc.gridx = 1; // 第一個
 		gbc.gridy = 0;
@@ -91,5 +94,12 @@ public class StartPage extends JFrame {
 		button.setBorder(BorderFactory.createLineBorder(new Color(190, 140, 100), 2));
 		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
+
+	public static JPanel getMainPanel() {
+		// TODO Auto-generated method stub
+		return getMainPanel();
+	}
+
+	
 
 }
