@@ -30,13 +30,15 @@ import javax.swing.border.EmptyBorder;
 
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import Main.Style;
 
-public class ReportPage extends JPanel {
+public class ReportPage extends JPanel implements Style{
 	String server = "jdbc:mysql://140.119.19.73:3315/";
 	String database = "TG09";
 	String username = "TG09";
 	String password = "hGykqi";
 	String url = server + database + "?useSSL=false&serverTimezone=UTC";
+	private static final long serialVersionUID = 1L;
 
 	private JPanel mainPanel, leftPanel, rightPanel;
 	private JLabel title, placeLabel, situationLabel;

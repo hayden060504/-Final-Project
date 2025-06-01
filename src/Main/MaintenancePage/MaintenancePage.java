@@ -18,83 +18,89 @@ import Main.StartPage.StartPage;
 public class MaintenancePage extends JFrame {
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
-	
+
 	public MaintenancePage(int maintenanceId) {
 
-			//視窗的設定
-			setTitle("Maintenance");
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setSize(800, 600);
-			setLocationRelativeTo(null);
-			//主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
-			cardLayout = new CardLayout();
-			mainPanel = new JPanel(cardLayout);
-			//創建維修員Panel
-			JPanel maintenancePanel = new JPanel();
-			maintenancePanel.setLayout(new BorderLayout());
-			//上方的title
-			JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
-			titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
-			titleLabel.setOpaque(true);
-			titleLabel.setBackground(new Color(255, 204, 204));
-			maintenancePanel.add(titleLabel, BorderLayout.NORTH);
-			//下方的三個按鈕和乘載的Panel
-			JPanel downPanel = new JPanel(new GridLayout(1, 4, 10, 10));
+		// 視窗的設定
+		setTitle("Maintenance");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(800, 600);
+		setLocationRelativeTo(null);
+		// 主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
+		cardLayout = new CardLayout();
+		mainPanel = new JPanel(cardLayout);
+		// 創建維修員Panel
+		JPanel maintenancePanel = new JPanel();
+		maintenancePanel.setLayout(new BorderLayout());
+		// 上方的title
+		JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+		titleLabel.setOpaque(true);
+		titleLabel.setBackground(new Color(255, 204, 204));
+		maintenancePanel.add(titleLabel, BorderLayout.NORTH);
+		// 下方的三個按鈕和乘載的Panel
+		JPanel downPanel = new JPanel(new GridLayout(1, 4, 10, 10));
 
-			JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
-			JButton systemButton = new JButton("<html>接案<br>系統</html>");
-			JButton qaButton = new JButton("<html>設定<br>Q&A</html>");
-			JButton announceButton = new JButton("<html>發布<br>公告</html>");
+		JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
+		JButton systemButton = new JButton("<html>接案<br>系統</html>");
+		JButton qaButton = new JButton("<html>設定<br>Q&A</html>");
+		JButton announceButton = new JButton("<html>發布<br>公告</html>");
 
-			downPanel.add(repairButton);
-			downPanel.add(systemButton);
-			downPanel.add(qaButton);
-			downPanel.add(announceButton);
-			
-			maintenancePanel.add(downPanel, BorderLayout.CENTER);
+		downPanel.add(repairButton);
+		downPanel.add(systemButton);
+		downPanel.add(qaButton);
+		downPanel.add(announceButton);
 
-			// 在同一個視窗內，改畫面，不要再跳一個新視窗了
-			// 不要再用new那個class了
-			//創建每個畫面，並加入mainPanel
-			mainPanel.add(maintenancePanel,"MaintenancePage");
-			mainPanel.add(new SchedulePage(),"SchedulePage");
-			mainPanel.add(new MaintenanceAcceptPage(maintenanceId),"MaintenanceAcceptPage");
-			mainPanel.add(new QAPageForMaintenance(),"QAPageForMaintenance");
-			mainPanel.add(new AnnouncePage(),"AnnouncePage");
-			
-			//設定切換畫面
-			repairButton.addActionListener(e -> {cardLayout.show(mainPanel, "SchedulePage");
-												 setTitle("SchedulePage");}); //設置title
-			systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
-			qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
-			announceButton.addActionListener(e-> cardLayout.show(mainPanel, "AnnouncePage"));
-			
-			//加到JFrame
-			add(mainPanel);
-			
-			//設定初始畫面
-			cardLayout.show(mainPanel, "MaintenancePage");
-			
-			setVisible(true);
-			
-			 JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		       JButton backButton = new JButton("返回");
-		       backButton.addActionListener(e -> {
-		           MaintenancePage.getCardLayout().show(StartPage.getMainPanel(), "StartPage");
-		       });
-		       bottomPanel.add(backButton);
-		       add(bottomPanel, BorderLayout.SOUTH); 
+		maintenancePanel.add(downPanel, BorderLayout.CENTER);
+
+		// 在同一個視窗內，改畫面，不要再跳一個新視窗了
+		// 不要再用new那個class了
+		// 創建每個畫面，並加入mainPanel
+		mainPanel.add(maintenancePanel, "MaintenancePage");
+		mainPanel.add(new SchedulePage(), "SchedulePage");
+		mainPanel.add(new MaintenanceAcceptPage(maintenanceId), "MaintenanceAcceptPage");
+		mainPanel.add(new QAPageForMaintenance(), "QAPageForMaintenance");
+		mainPanel.add(new AnnouncePage(), "AnnouncePage");
+
+		// 設定切換畫面
+		repairButton.addActionListener(e -> {
+			cardLayout.show(mainPanel, "SchedulePage");
+			setTitle("SchedulePage");
+		}); // 設置title
+		systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
+		qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
+		announceButton.addActionListener(e -> cardLayout.show(mainPanel, "AnnouncePage"));
+
+		// 加到JFrame
+		add(mainPanel);
+
+		// 設定初始畫面
+		cardLayout.show(mainPanel, "MaintenancePage");
+
+		setVisible(true);
+
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JButton backButton = new JButton("返回首頁");
+		backButton.addActionListener(e -> {
+			dispose();
+			new StartPage();
+		});
+		bottomPanel.add(backButton);
+		add(bottomPanel, BorderLayout.SOUTH);
 	}
-	//獲得CardLayout，別的畫面的跳回按鍵用這兩個
-	/*e.g:
-	 *MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(),"你想要的畫面");
-	 *根據上方cardLayout建立時後面的String去打在你想要的畫面
+
+	// 獲得CardLayout，別的畫面的跳回按鍵用這兩個
+	/*
+	 * e.g:
+	 * MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(),"你想要的畫面")
+	 * ; 根據上方cardLayout建立時後面的String去打在你想要的畫面
 	 */
 	public static CardLayout getCardLayout() {
 		return cardLayout;
 	}
+
 	public static JPanel getMainPanel() {
 		return mainPanel;
 	}
-	
+
 }
