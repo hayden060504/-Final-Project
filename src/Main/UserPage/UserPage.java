@@ -1,5 +1,7 @@
 package Main.UserPage;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Main.JavaFxFontTransfer;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
@@ -37,7 +40,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class UserPage {
+public class UserPage{
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
 	private static VBox progressBoxContent;
@@ -46,6 +49,12 @@ public class UserPage {
 	static String url = "jdbc:mysql://140.119.19.73:3315/TG09";
 	static String dbUser = "TG09";
 	static String dbPassword = "hGykqi";
+	
+	static Font titleFont = new Font("Microsoft JhengHei", Font.BOLD, 40);
+    static Font contentFont = new Font("Microsoft JhengHei", Font.PLAIN, 20);
+    static Color backColor = new Color(253, 241, 220); 
+    static Color btnBackColor = new Color(253, 225, 191);
+    static Color inputBackColor = new Color(255, 235, 200); 
 
     public UserPage() {
         	JFrame frame = new JFrame("User Page");
@@ -89,18 +98,23 @@ public class UserPage {
         //最新公告
         VBox noticeBox = new VBox(20);
         noticeBox.setPadding(new Insets(20));
-        noticeBox.setStyle(
-                "-fx-border-color: #cccccc; " +
-                "-fx-border-radius: 8; " +
-                "-fx-border-width: 1; " +
-                "-fx-background-radius: 8; " +
-                "-fx-background-color: white;");
+        leftPanel.setStyle("-fx-background-color: #" +
+                JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor)) + ";");
         Label noticeLabel = new Label("<最新公告>");
+        noticeLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(titleFont));
         
         noticeArea = new TextArea();
         noticeArea.setEditable(false);
         noticeArea.setWrapText(true);
         noticeArea.setPrefHeight(200);
+        noticeArea.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
+        noticeBox.setStyle(
+        	    "-fx-border-color: #cccccc; " +
+        	    "-fx-border-radius: 8; " +
+        	    "-fx-border-width: 1; " +
+        	    "-fx-background-radius: 8; " +
+        	    "-fx-background-color: #" +
+        	    JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(backColor)) + ";");
         ScrollPane noticeScroll = new ScrollPane(noticeArea);
         noticeScroll.setFitToWidth(true);
         noticeScroll.setPrefHeight(240);
@@ -113,12 +127,14 @@ public class UserPage {
         VBox progressBox = new VBox(20);
         progressBox.setPadding(new Insets(20));
         progressBox.setStyle(
-                "-fx-border-color: #cccccc; " +
-                "-fx-border-radius: 8; " +
-                "-fx-border-width: 1; " +
-                "-fx-background-radius: 8; " +
-                "-fx-background-color: white;");
+        	    "-fx-border-color: #cccccc; " +
+        	    "-fx-border-radius: 8; " +
+        	    "-fx-border-width: 1; " +
+        	    "-fx-background-radius: 8; " +
+        	    "-fx-background-color: #" +
+        	    JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(backColor)) + ";");
         Label progressLabel = new Label("<熱門維修進度查詢>");
+        progressLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(titleFont));
         
         progressBoxContent = new VBox(10); 
         
@@ -137,7 +153,8 @@ public class UserPage {
         rightPanel.setPadding(new Insets(20));
         rightPanel.setAlignment(Pos.TOP_CENTER);
         rightPanel.setPrefWidth(200);
-        rightPanel.setStyle("-fx-background-color: #fde8c8;");
+        rightPanel.setStyle("-fx-background-color: #" +
+                JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(btnBackColor)) + ";");
 
         Button reportBtn = new Button("我要報修");
         Button checkBtn = new Button("進度查詢");
@@ -145,12 +162,13 @@ public class UserPage {
 
         for (Button btn : new Button[]{reportBtn, checkBtn, QABtn}) {
             btn.setMaxWidth(Double.MAX_VALUE);
+            btn.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
             btn.setStyle(
-                    "-fx-background-color: #ffcc99;" +
-                    "-fx-border-color: #d38f65;" +
-                    "-fx-border-radius: 8;" +
-                    "-fx-background-radius: 8;" +
-                    "-fx-font-weight: bold;");
+                "-fx-background-color: #" +
+                JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(btnBackColor)) + ";" +
+                "-fx-border-color: #d38f65;" +
+                "-fx-border-radius: 8;" +
+                "-fx-background-radius: 8;");
         }
 
         //按按鈕換到新Page
@@ -224,11 +242,13 @@ public class UserPage {
                              cp.performQuery(id);
                          }
                      });
+                     reportLink.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
                      progressBoxContent.getChildren().add(reportLink);
                      rank++;
                  }
              } catch (SQLException e) {
                  Button errorBtn = new Button("Error fetching top queries: " + e.getMessage());
+                 errorBtn.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
                  progressBoxContent.getChildren().add(errorBtn);
              }
   		});
