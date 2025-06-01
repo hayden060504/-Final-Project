@@ -48,7 +48,7 @@ public class UserPage{
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
 	private static VBox progressBoxContent;
-	private static TextArea noticeArea;
+	private static VBox noticeContentBox;
 	
 	static String url = "jdbc:mysql://140.119.19.73:3315/TG09";
 	static String dbUser = "TG09";
@@ -102,25 +102,27 @@ public class UserPage{
         //最新公告
         VBox noticeBox = new VBox(20);
         noticeBox.setPadding(new Insets(20));
-        leftPanel.setStyle("-fx-background-color: #" +
-                JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor)) + ";");
+        noticeBox.setStyle(
+            "-fx-border-color: #cccccc; " +
+            "-fx-border-radius: 8; " +
+            "-fx-border-width: 1; " +
+            "-fx-background-radius: 8; " +
+            "-fx-background-color: #" +
+            JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(backColor)) + ";");
+
         Label noticeLabel = new Label("<最新公告>");
         noticeLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(titleFont));
-        
-        noticeArea = new TextArea();
-        noticeArea.setEditable(false);
-        noticeArea.setWrapText(true);
-        noticeArea.setPrefHeight(200);
-        noticeArea.setPrefWidth(540);
-        noticeArea.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
-        noticeBox.setStyle(
-        	    "-fx-border-color: #cccccc; " +
-        	    "-fx-border-radius: 8; " +
-        	    "-fx-border-width: 1; " +
-        	    "-fx-background-radius: 8; " +
-        	    "-fx-background-color: #" +
-        	    JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(backColor)) + ";");
-        noticeBox.getChildren().addAll(noticeLabel, noticeArea);
+
+        // 用 VBox 裝公告項目
+        noticeContentBox = new VBox(10);
+        noticeContentBox.setPadding(new Insets(5));
+
+        // 用 ScrollPane 包住 VBox
+        ScrollPane noticeScroll = new ScrollPane(noticeContentBox);
+        noticeScroll.setFitToWidth(true);
+        noticeScroll.setPrefHeight(200);
+
+        noticeBox.getChildren().addAll(noticeLabel, noticeScroll);
         
         //載入公告
         updateLatestAnnouncements();
@@ -143,7 +145,7 @@ public class UserPage{
         ScrollPane progressScroll = new ScrollPane(progressBoxContent);
         progressScroll.setFitToWidth(true);
         progressScroll.setPrefHeight(240);
-        progressScroll.setPrefWidth(540);
+        progressScroll.setPrefWidth(80);
         progressBox.getChildren().addAll(progressLabel, progressScroll);
 
         leftPanel.getChildren().addAll(noticeBox, progressBox);
@@ -191,25 +193,35 @@ public class UserPage{
     
     public static void updateLatestAnnouncements() {
         Platform.runLater(() -> {
-            StringBuilder announcements = new StringBuilder();
+            noticeContentBox.getChildren().clear();
             try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
-            	//從資料庫Announce表中抓前10筆
-                String query = "SELECT Title, Content FROM Announce ORDER BY ID DESC LIMIT 10"; // 最新10筆
+                String query = "SELECT Title, Content FROM Announce ORDER BY ID DESC LIMIT 10";
                 PreparedStatement stmt = conn.prepareStatement(query);
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
                     String title = rs.getString("Title");
                     String content = rs.getString("Content");
-                    announcements.append("【").append(title).append("】\n")	//標題
-                                 .append(content).append("\n\n");	//內容(想說既然有內容就順便放上來好了)
+
+                    Label titleLabel = new Label("【" + title + "】");
+                    titleLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
+                    Label contentLabel = new Label(content);
+                    contentLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
+                    contentLabel.setWrapText(true);
+
+                    VBox singleAnnouncement = new VBox(2, titleLabel, contentLabel);
+                    singleAnnouncement.setStyle("-fx-padding: 5; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;");
+
+                    noticeContentBox.getChildren().add(singleAnnouncement);
                 }
-                noticeArea.setText(announcements.toString()); //放到最新公告的TextArea，就結束了!!!
             } catch (SQLException e) {
-                noticeArea.setText("公告載入失敗: " + e.getMessage());
+                Label errorLabel = new Label("公告載入失敗: " + e.getMessage());
+                errorLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
+                noticeContentBox.getChildren().add(errorLabel);
             }
         });
     }
+
     
   //獲得CardLayout，別的畫面的跳回按鍵用這兩個
   	/*e.g:
