@@ -120,7 +120,7 @@ public class ReportPage extends JPanel {
 		//
 		returnBtn = new JButton("返回");
 		returnBtn.setBackground(btnBackColor);
-		returnBtn.addActionListener(e -> UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage"));
+		returnBtn.addActionListener(e -> UserPage.getCardLayout().show(UserPage.getMainPanel(), "使用者頁面"));
 		leftPanel.add(returnBtn, BorderLayout.SOUTH);
 
 		// 這個就可以得到圖片的路徑

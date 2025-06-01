@@ -57,7 +57,7 @@ public class UserPage{
     static Color inputBackColor = new Color(255, 235, 200); 
 
     public UserPage() {
-        	JFrame frame = new JFrame("User Page");
+        	JFrame frame = new JFrame("使用者頁面");
         	frame.setSize(800, 600);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
@@ -69,7 +69,7 @@ public class UserPage{
             cardLayout = new CardLayout();
             mainPanel = new JPanel(cardLayout);
             
-            mainPanel.add(fxPanel,"UserPage");
+            mainPanel.add(fxPanel,"使用者頁面");
             frame.add(mainPanel);
             
             //新增畫面

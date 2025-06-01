@@ -114,7 +114,7 @@ public class QAPageForUser extends JPanel {
 
 		// 返回按鈕的反應
 		returnBtn.setOnAction(e -> {
-			UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
+			UserPage.getCardLayout().show(UserPage.getMainPanel(), "使用者頁面");
 		});
 		
 		//

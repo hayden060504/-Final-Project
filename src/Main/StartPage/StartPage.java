@@ -32,14 +32,14 @@ public class StartPage extends JFrame {
 		// 讓按鈕隨視窗變動(y軸變大變小比例1:1)
 		gbc.weighty = 1.0;
 
-		JButton userButton = new JButton("User Page");
+		JButton userButton = new JButton("使用者頁面");
 		styleMilkTeaButton(userButton);
 		gbc.gridx = 0; // 第一個
 		gbc.gridy = 0;
 		add(userButton, gbc);
 		userButton.addActionListener(e -> openLogin("user"));
 
-		JButton maintenanceButton = new JButton("Maintenance Page");
+		JButton maintenanceButton = new JButton("維修人員頁面");
 		styleMilkTeaButton(maintenanceButton);
 		gbc.gridx = 1; // 第一個
 		gbc.gridy = 0;

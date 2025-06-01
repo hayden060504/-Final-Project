@@ -148,7 +148,7 @@ public class QAPageForMaintenance extends JPanel implements Style{
 
 		// 返回按鈕的反應
 		returnBtn.setOnAction(e -> {
-			MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
+			MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(),"MaintenancePage");
 		});
 		
 		//

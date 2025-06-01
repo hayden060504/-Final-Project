@@ -19,7 +19,7 @@ public class MaintenancePage extends JFrame {
 	public MaintenancePage(int maintenanceId) {
 
 			//視窗的設定
-			setTitle("Maintenance");
+			setTitle("維修人員頁面");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setSize(800, 600);
 			setLocationRelativeTo(null);
@@ -61,7 +61,7 @@ public class MaintenancePage extends JFrame {
 			
 			//設定切換畫面
 			repairButton.addActionListener(e -> {cardLayout.show(mainPanel, "SchedulePage");
-												 setTitle("SchedulePage");}); //設置title
+												 setTitle("維修人員頁面");}); //設置title
 			systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 			qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
 			announceButton.addActionListener(e-> cardLayout.show(mainPanel, "AnnouncePage"));

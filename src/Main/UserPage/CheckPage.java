@@ -87,7 +87,7 @@ public class CheckPage extends JPanel {
             }
         });
         
-        returnBtn.addActionListener(e-> UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage"));
+        returnBtn.addActionListener(e-> UserPage.getCardLayout().show(UserPage.getMainPanel(), "使用者頁面"));
         
         addComponentListener(new ComponentAdapter() {
             @Override
