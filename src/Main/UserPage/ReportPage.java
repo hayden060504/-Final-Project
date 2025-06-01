@@ -251,6 +251,7 @@ public class ReportPage extends JPanel {
 			selectedFile = null;
 			selectedFileLabel.setText("未選擇檔案");
 			
+			
 			UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
 			
 		} catch (SQLException e) {
