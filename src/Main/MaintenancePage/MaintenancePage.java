@@ -90,6 +90,8 @@ public class MaintenancePage extends JFrame{
 			new StartPage();
 		});
 		
+		
+		
 		add(bottomPanel, BorderLayout.SOUTH);
 	}
 
