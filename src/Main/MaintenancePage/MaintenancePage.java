@@ -3,6 +3,7 @@ package Main.MaintenancePage;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -11,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import Main.StartPage.StartPage;
 
 public class MaintenancePage extends JFrame {
 	private static CardLayout cardLayout;
@@ -73,6 +76,14 @@ public class MaintenancePage extends JFrame {
 			cardLayout.show(mainPanel, "MaintenancePage");
 			
 			setVisible(true);
+			
+			 JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		       JButton backButton = new JButton("返回");
+		       backButton.addActionListener(e -> {
+		           MaintenancePage.getCardLayout().show(StartPage.getMainPanel(), "StartPage");
+		       });
+		       bottomPanel.add(backButton);
+		       add(bottomPanel, BorderLayout.SOUTH); 
 	}
 	//獲得CardLayout，別的畫面的跳回按鍵用這兩個
 	/*e.g:
@@ -85,4 +96,5 @@ public class MaintenancePage extends JFrame {
 	public static JPanel getMainPanel() {
 		return mainPanel;
 	}
+	
 }
