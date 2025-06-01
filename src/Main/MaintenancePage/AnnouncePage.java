@@ -22,7 +22,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class AnnouncePage extends JPanel {
+import Main.Style;
+
+public class AnnouncePage extends JPanel implements Style{
 
 	private JTextField titleField;
 	private JTextArea contentArea;
@@ -41,9 +43,11 @@ public class AnnouncePage extends JPanel {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50)); // 上下左右邊距
+		mainPanel.setBackground(backColor);
 
 		// 標題Label與輸入框
 		JLabel titleLabel = new JLabel("標題：");
+		titleLabel.setFont(contentFont);
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		titleField = new JTextField(20);
 		titleField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // 限高
@@ -54,6 +58,7 @@ public class AnnouncePage extends JPanel {
 
 		// 內文Label與輸入框
 		JLabel contentLabel = new JLabel("內文：");
+		contentLabel.setFont(contentFont);
 		contentLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		contentArea = new JTextArea(5, 20);
 		contentArea.setLineWrap(true);
@@ -67,6 +72,8 @@ public class AnnouncePage extends JPanel {
 
 		// 提交按鈕
 		submitBtn = new JButton("發布");
+		submitBtn.setFont(contentFont);
+		submitBtn.setBackground(btnBackColor);
 		submitBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainPanel.add(submitBtn);
 
@@ -75,6 +82,8 @@ public class AnnouncePage extends JPanel {
 				
 		//
 		JButton returnBtn = new JButton("返回");
+		returnBtn.setFont(contentFont);
+		returnBtn.setBackground(btnBackColor);
 		returnBtn.setSize(80, 30);
         layeredPane.add(returnBtn, JLayeredPane.MODAL_LAYER);
         returnBtn.setLocation(10, 360); 
