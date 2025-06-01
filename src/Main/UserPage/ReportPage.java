@@ -246,7 +246,6 @@ public class ReportPage extends JPanel {
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(this, "送出成功");
 			
-
 			place_description.setText("");
 			situation_description.setText("");
 			selectedFile = null;
