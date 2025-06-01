@@ -111,6 +111,7 @@ public class UserPage{
         noticeArea.setEditable(false);
         noticeArea.setWrapText(true);
         noticeArea.setPrefHeight(200);
+        noticeArea.setPrefWidth(540);
         noticeArea.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont));
         noticeBox.setStyle(
         	    "-fx-border-color: #cccccc; " +
@@ -142,6 +143,7 @@ public class UserPage{
         ScrollPane progressScroll = new ScrollPane(progressBoxContent);
         progressScroll.setFitToWidth(true);
         progressScroll.setPrefHeight(240);
+        progressScroll.setPrefWidth(540);
         progressBox.getChildren().addAll(progressLabel, progressScroll);
 
         leftPanel.getChildren().addAll(noticeBox, progressBox);
