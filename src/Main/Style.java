@@ -19,10 +19,8 @@ public interface Style {
 	javafx.scene.text.Font fxTitleFont = JavaFxFontTransfer.convertAwtFontToJavaFX(titleFont); //FX用的
 
 	javafx.scene.paint.Color fxInputBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor); //FX
-	javafx.scene.paint.Color fxBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor);	//Fx
-	javafx.scene.paint.Color fxBtnBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor); //Fx
-	javafx.scene.paint.Color fxInputTextColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor); //Fx
-
-
+	javafx.scene.paint.Color fxBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(backColor);	//Fx
+	javafx.scene.paint.Color fxBtnBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(btnBackColor); //Fx
+	javafx.scene.paint.Color fxInputTextColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputTextColor); //Fx
 	
 }

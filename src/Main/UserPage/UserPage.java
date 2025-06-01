@@ -1,6 +1,8 @@
 package Main.UserPage;
+
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,10 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Main.JavaFxFontTransfer;
+import Main.StartPage.StartPage;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
@@ -115,10 +119,7 @@ public class UserPage{
         	    "-fx-background-radius: 8; " +
         	    "-fx-background-color: #" +
         	    JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(backColor)) + ";");
-        ScrollPane noticeScroll = new ScrollPane(noticeArea);
-        noticeScroll.setFitToWidth(true);
-        noticeScroll.setPrefHeight(240);
-        noticeBox.getChildren().addAll(noticeLabel, noticeScroll);
+        noticeBox.getChildren().addAll(noticeLabel, noticeArea);
         
         //載入公告
         updateLatestAnnouncements();
