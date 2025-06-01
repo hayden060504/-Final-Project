@@ -89,15 +89,15 @@ public class MaintenancePage extends JFrame{
 			dispose();
 			new StartPage();
 		});
-<<<<<<< HEAD
+
 		
 		
 		
 		add(bottomPanel, BorderLayout.SOUTH);
-=======
+
 		bottomPanel.add(backButton);
 		add(bottomPanel, BorderLayout.SOUTH);
->>>>>>> branch 'main' of https://github.com/hayden060504/-Final-Project.git
+
 	}
 
 	// 獲得CardLayout，別的畫面的跳回按鍵用這兩個
