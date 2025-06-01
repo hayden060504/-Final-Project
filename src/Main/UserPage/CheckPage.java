@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.sql.*;
 
 import javax.swing.*;
@@ -89,10 +91,20 @@ public class CheckPage extends JPanel {
                 resultArea.setText(result);
             }
         });
-
-        returnBtn.addActionListener(e -> {
-            // 切換回上一頁面
-            UserPage.getCardLayout().show(UserPage.getMainPanel(), "UserPage");
+        
+        returnBtn.addActionListener(e-> UserPage.getCardLayout().show(UserPage.getMainPanel(), "使用者頁面"));
+        
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int x = 10;
+                int y = 10;
+                //維持按鈕的位置
+                returnBtn.setLocation(x, y);
+                
+                //持續根據視窗大小改變大小
+                mainPanel.setBounds(0,0,getWidth(),getHeight());
+            }
         });
     }
 

@@ -24,27 +24,27 @@ public class MaintenancePage extends JFrame{
 
 	public MaintenancePage(int maintenanceId) {
 
-		// 視窗的設定
-		setTitle("Maintenance");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 600);
-		setLocationRelativeTo(null);
-		// 主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
-		cardLayout = new CardLayout();
-		mainPanel = new JPanel(cardLayout);
-		// 創建維修員Panel
-		JPanel maintenancePanel = new JPanel();
-		maintenancePanel.setLayout(new BorderLayout());
-		// 上方的title
-		JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
-		titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
-		titleLabel.setOpaque(true);
-		titleLabel.setBackground(new Color(255, 204, 204));
-		maintenancePanel.add(titleLabel, BorderLayout.NORTH);
-		// 下方的三個按鈕和乘載的Panel
-		JPanel downPanel = new JPanel(new GridLayout(1, 4, 10, 10));
-		downPanel.setBorder(new EmptyBorder(20, 20, 20, 20));  // 上下左右各 20 像素
-		
+
+			//視窗的設定
+			setTitle("維修人員");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setSize(800, 600);
+			setLocationRelativeTo(null);
+			//主要面板，用於切換畫面用(不是創建新視窗!!!!!!!!!!!!!!!!!!!)
+			cardLayout = new CardLayout();
+			mainPanel = new JPanel(cardLayout);
+			//創建維修員Panel
+			JPanel maintenancePanel = new JPanel();
+			maintenancePanel.setLayout(new BorderLayout());
+			//上方的title
+			JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
+			titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+			titleLabel.setOpaque(true);
+			titleLabel.setBackground(new Color(255, 204, 204));
+			maintenancePanel.add(titleLabel, BorderLayout.NORTH);
+			//下方的三個按鈕和乘載的Panel
+			JPanel downPanel = new JPanel(new GridLayout(1, 4, 10, 10));
+
 		JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
 		JButton systemButton = new JButton("<html>接案<br>系統</html>");
 		JButton qaButton = new JButton("<html>設定<br>Q&A</html>");
@@ -89,10 +89,15 @@ public class MaintenancePage extends JFrame{
 			dispose();
 			new StartPage();
 		});
+<<<<<<< HEAD
 		
 		
 		
 		add(bottomPanel, BorderLayout.SOUTH);
+=======
+		bottomPanel.add(backButton);
+		add(bottomPanel, BorderLayout.SOUTH);
+>>>>>>> branch 'main' of https://github.com/hayden060504/-Final-Project.git
 	}
 
 	// 獲得CardLayout，別的畫面的跳回按鍵用這兩個
