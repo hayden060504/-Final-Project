@@ -14,4 +14,15 @@ public interface Style {
 
 	Font contentFont = new Font("Microsoft JhengHei", Font.PLAIN, 20); // 文字大小和按鈕字體大小
 	Font titleFont = new Font("Microsoft JhengHei", Font.BOLD, 40); // 標題大小
+	
+	javafx.scene.text.Font fxContentFont = JavaFxFontTransfer.convertAwtFontToJavaFX(contentFont); //FX用的
+	javafx.scene.text.Font fxTitleFont = JavaFxFontTransfer.convertAwtFontToJavaFX(titleFont); //FX用的
+
+	javafx.scene.paint.Color fxInputBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor); //FX
+	javafx.scene.paint.Color fxBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor);	//Fx
+	javafx.scene.paint.Color fxBtnBackColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor); //Fx
+	javafx.scene.paint.Color fxInputTextColor = JavaFxFontTransfer.convertAwtColorToJavaFX(inputBackColor); //Fx
+
+
+	
 }
