@@ -89,7 +89,7 @@ public class MaintenancePage extends JFrame{
 			dispose();
 			new StartPage();
 		});
-		bottomPanel.add(backButton);
+		
 		add(bottomPanel, BorderLayout.SOUTH);
 	}
 
