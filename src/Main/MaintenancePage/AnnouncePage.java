@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -110,6 +111,11 @@ public class AnnouncePage extends JPanel {
 			stat.close();
 
 			System.out.println("Data submited successfully.");
+			
+			// 呼叫這段代碼即可
+			JOptionPane.showMessageDialog(null, "您的問題已成功發布！", "發布成功", JOptionPane.INFORMATION_MESSAGE);
+			MaintenancePage.getCardLayout().show(MaintenancePage.getMainPanel(), "MaintenancePage");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 
