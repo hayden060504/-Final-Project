@@ -1,6 +1,7 @@
 package Main.MaintenancePage;
 
 import java.awt.BorderLayout;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -12,12 +13,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import Main.StartPage.StartPage;
 
-public class MaintenancePage extends JFrame {
+public class MaintenancePage extends JFrame{
 	private static CardLayout cardLayout;
 	private static JPanel mainPanel;
+
 
 	public MaintenancePage(int maintenanceId) {
 
@@ -40,7 +43,8 @@ public class MaintenancePage extends JFrame {
 		maintenancePanel.add(titleLabel, BorderLayout.NORTH);
 		// 下方的三個按鈕和乘載的Panel
 		JPanel downPanel = new JPanel(new GridLayout(1, 4, 10, 10));
-
+		downPanel.setBorder(new EmptyBorder(20, 20, 20, 20));  // 上下左右各 20 像素
+		
 		JButton repairButton = new JButton("<html>待<br>維<br>修</html>");
 		JButton systemButton = new JButton("<html>接案<br>系統</html>");
 		JButton qaButton = new JButton("<html>設定<br>Q&A</html>");
