@@ -33,7 +33,7 @@ public class CheckPage extends JPanel {
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30)); // 整體上下左右留白
 
         // ===== 標題 =====
-        JLabel titleLabel = new JLabel("Check Maintenance Progress");
+        JLabel titleLabel = new JLabel("查詢維修進度");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT); // 置中
         mainPanel.add(titleLabel);
@@ -44,14 +44,14 @@ public class CheckPage extends JPanel {
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
         inputPanel.setAlignmentX(CENTER_ALIGNMENT);
 
-        JLabel idLabel = new JLabel("Enter Report ID:");
+        JLabel idLabel = new JLabel("輸入回報編號:");
         idLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         idInput = new JTextField(15);
         idInput.setMaximumSize(new Dimension(200, 25)); // 設定最大寬度
         idInput.setAlignmentX(CENTER_ALIGNMENT);
 
-        JButton checkButton = new JButton("Check");
+        JButton checkButton = new JButton("查詢");
         checkButton.setAlignmentX(CENTER_ALIGNMENT);
 
         // 將元件與間距加進 inputPanel
