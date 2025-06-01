@@ -37,7 +37,7 @@ public class MaintenancePage extends JFrame{
 			JPanel maintenancePanel = new JPanel();
 			maintenancePanel.setLayout(new BorderLayout());
 			//上方的title
-			JLabel titleLabel = new JLabel("Maintenance", SwingConstants.CENTER);
+			JLabel titleLabel = new JLabel("維修頁面", SwingConstants.CENTER);
 			titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
 			titleLabel.setOpaque(true);
 			titleLabel.setBackground(new Color(255, 204, 204));
