@@ -56,7 +56,7 @@ public class QAPageForUser extends JPanel {
 
 	private void initFX(JFXPanel fxPanel) {
 		VBox contentBox = new VBox(10);
-		contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
+		contentBox.setStyle("-fx-padding: 20;");
 
 		// [1] 標題列 + 新增按鈕
 		HBox headerBox = new HBox();

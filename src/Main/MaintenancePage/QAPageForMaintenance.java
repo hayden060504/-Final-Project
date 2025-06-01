@@ -58,7 +58,7 @@ public class QAPageForMaintenance extends JPanel implements Style{
 
 	private void initFX(JFXPanel fxPanel) {
 		VBox contentBox = new VBox(10);
-		contentBox.setStyle("-fx-padding: 20; -fx-background-color: #f9f9f9;");
+		contentBox.setStyle("-fx-padding: 20;");
 
 		// [1] 標題列 + 新增按鈕
 		HBox headerBox = new HBox();
@@ -97,9 +97,10 @@ public class QAPageForMaintenance extends JPanel implements Style{
 		// [3] 放進 ScrollPane
 		ScrollPane scrollPane = new ScrollPane(contentBox);
 		scrollPane.setFitToWidth(true);
-		scrollPane.setStyle("-fx-background: #ffffff;");
+		scrollPane.setStyle("-fx-background: #f9f9f9;");
 
 		Scene scene = new Scene(scrollPane, 500, 400);
+		scene.setFill(javafx.scene.paint.Color.web("#f9f9f9"));
 		fxPanel.setScene(scene);
 
 		// 底部欄位
