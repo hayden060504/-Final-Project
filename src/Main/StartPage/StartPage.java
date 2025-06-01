@@ -92,4 +92,11 @@ public class StartPage extends JFrame {
 		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
+	public static JPanel getMainPanel() {
+		// TODO Auto-generated method stub
+		return getMainPanel();
+	}
+
+	
+
 }
