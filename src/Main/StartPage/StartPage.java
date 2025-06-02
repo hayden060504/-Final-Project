@@ -9,6 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.List;
+import java.util.Arrays;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+
 public class StartPage extends JFrame {
 	public StartPage() {
 
@@ -69,6 +75,19 @@ public class StartPage extends JFrame {
 
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		//將兩個btn放進List中 一起調大小
+		List<JButton> allButtons = Arrays.asList(userButton, maintenanceButton);
+	    	addComponentListener(new ComponentAdapter() {
+	    		public void componentResized(ComponentEvent e) {
+	                int width = getWidth();
+	                int fontSize = Math.max(14, width / 40); // 依照視窗寬度決定字體大小
+	                Font dynamicFont = new Font("Noto Sans TC", Font.BOLD, fontSize);
+	                for (JButton btn : allButtons) {
+	                    btn.setFont(dynamicFont);
+	                }
+	            }
+	        });
 
 	}
 
@@ -86,7 +105,6 @@ public class StartPage extends JFrame {
 	}
 
 	private void styleMilkTeaButton(JButton button) {
-		button.setPreferredSize(new Dimension(150, 50));
 		button.setFont(new Font("Noto Sans TC", Font.BOLD, 16));
 		button.setBackground(new Color(210, 180, 140));
 		button.setForeground(Color.WHITE);

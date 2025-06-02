@@ -96,7 +96,7 @@ public class UserPage{
         //左邊(公告+熱門維修進度查詢)
         VBox leftPanel = new VBox(30);
         leftPanel.setPadding(new Insets(40));
-        leftPanel.setPrefWidth(600);
+        VBox.setVgrow(leftPanel, javafx.scene.layout.Priority.ALWAYS);
         leftPanel.setStyle("-fx-background-color: #fdf1dc;");
 
         //最新公告
@@ -120,9 +120,11 @@ public class UserPage{
         // 用 ScrollPane 包住 VBox
         ScrollPane noticeScroll = new ScrollPane(noticeContentBox);
         noticeScroll.setFitToWidth(true);
-        noticeScroll.setPrefHeight(200);
+        noticeScroll.setFitToHeight(true);
+        VBox.setVgrow(noticeScroll, javafx.scene.layout.Priority.ALWAYS);
 
         noticeBox.getChildren().addAll(noticeLabel, noticeScroll);
+        VBox.setVgrow(noticeBox, javafx.scene.layout.Priority.ALWAYS);
         
         //載入公告
         updateLatestAnnouncements();
@@ -144,11 +146,15 @@ public class UserPage{
         
         ScrollPane progressScroll = new ScrollPane(progressBoxContent);
         progressScroll.setFitToWidth(true);
-        progressScroll.setPrefHeight(240);
-        progressScroll.setPrefWidth(80);
+        progressScroll.setFitToHeight(true);
+        VBox.setVgrow(progressScroll, javafx.scene.layout.Priority.ALWAYS);
+        
         progressBox.getChildren().addAll(progressLabel, progressScroll);
+        VBox.setVgrow(progressBox, javafx.scene.layout.Priority.ALWAYS);
 
         leftPanel.getChildren().addAll(noticeBox, progressBox);
+        VBox.setVgrow(noticeBox, javafx.scene.layout.Priority.ALWAYS);
+        VBox.setVgrow(progressBox, javafx.scene.layout.Priority.ALWAYS);
         
         //載入熱門查詢
         updateTopQueriedReports();
@@ -157,9 +163,9 @@ public class UserPage{
         VBox rightPanel = new VBox(40);
         rightPanel.setPadding(new Insets(20));
         rightPanel.setAlignment(Pos.TOP_CENTER);
-        rightPanel.setPrefWidth(200);
         rightPanel.setStyle("-fx-background-color: #" +
                 JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(btnBackColor)) + ";");
+        rightPanel.setMaxWidth(Double.MAX_VALUE);
 
         Button reportBtn = new Button("我要報修");
         Button checkBtn = new Button("進度查詢");
@@ -185,6 +191,8 @@ public class UserPage{
 
         //左右邊合起來
         HBox content = new HBox(leftPanel, rightPanel);
+        HBox.setHgrow(leftPanel, javafx.scene.layout.Priority.ALWAYS);
+        HBox.setHgrow(rightPanel, javafx.scene.layout.Priority.NEVER);
         VBox root = new VBox(content);
 
         return new Scene(root);
