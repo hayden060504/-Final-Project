@@ -69,7 +69,6 @@ public class MaintenancePage extends JFrame{
 		// 設定切換畫面
 		repairButton.addActionListener(e -> {
 			cardLayout.show(mainPanel, "SchedulePage");
-			setTitle("SchedulePage");
 		}); // 設置title
 		systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 		qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
