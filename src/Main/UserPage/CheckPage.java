@@ -34,7 +34,7 @@ public class CheckPage extends JPanel {
 
         // ===== 標題 =====
         JLabel titleLabel = new JLabel("查詢維修進度");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT); // 置中
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20))); // 標題下方留白
