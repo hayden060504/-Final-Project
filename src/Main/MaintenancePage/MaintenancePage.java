@@ -70,6 +70,7 @@ public class MaintenancePage extends JFrame{
 		repairButton.addActionListener(e -> {
 			cardLayout.show(mainPanel, "SchedulePage");
 		});
+
 		systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 		qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
 		announceButton.addActionListener(e -> cardLayout.show(mainPanel, "AnnouncePage"));

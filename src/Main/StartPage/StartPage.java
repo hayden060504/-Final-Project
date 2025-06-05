@@ -56,12 +56,8 @@ public class StartPage extends JFrame {
 		maintenanceButton.addActionListener(e -> openLogin("maintenance"));
 
 		userButton.addActionListener(e -> {
-			LoginDialog login = new LoginDialog(this, "user");
-			login.setVisible(true);
-			if (login.isAuthenticated()) {
-				dispose();
-				new UserPage();
-			}
+			new UserPage();
+			dispose();
 		});
 
 		maintenanceButton.addActionListener(e -> {
