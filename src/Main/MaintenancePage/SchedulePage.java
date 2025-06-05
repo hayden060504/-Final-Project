@@ -52,7 +52,7 @@ public class SchedulePage extends JPanel{
 	        //月曆設定
 	        calendarPanel = new JPanel(new GridLayout(0, 7));
 	        add(calendarPanel, BorderLayout.CENTER);
-
+	        
 	        updateCalendar();
 	        
 	        //回上一頁的按鈕(右下角)
@@ -63,7 +63,7 @@ public class SchedulePage extends JPanel{
 	        });
 	        bottomPanel.add(backButton);
 	        add(bottomPanel, BorderLayout.SOUTH); 
-	}
+		}
 
 		private void updateCalendar() {
 			//先清空
@@ -136,6 +136,12 @@ public class SchedulePage extends JPanel{
 		                狀況描述: %s
 		            """, date, category, location, place, situation);
 		            JOptionPane.showMessageDialog(this, message, "案件資訊", JOptionPane.INFORMATION_MESSAGE);
+		            
+		            int option = JOptionPane.showConfirmDialog(this, message + "\n\n是否要回報進度？", "案件資訊", JOptionPane.YES_NO_OPTION);
+
+		            if (option == JOptionPane.YES_OPTION) {
+		                showStatusUpdateDialog(date);	//用來改維修進度
+		            }
 		        } else {	//沒找到案件的話
 		            JOptionPane.showMessageDialog(this, "這天沒有案件資料！", "查無資料", JOptionPane.INFORMATION_MESSAGE);
 		        }
@@ -143,4 +149,64 @@ public class SchedulePage extends JPanel{
 		        e.printStackTrace();
 		    }
 		}
-}
+		
+		//更新維修進度
+		private void showStatusUpdateDialog(LocalDate date) {
+		    JCheckBox notStarted = new JCheckBox("尚未維修");
+		    JCheckBox inProgress = new JCheckBox("維修中");
+		    JCheckBox completed = new JCheckBox("維修完成");
+
+		    ButtonGroup group = new ButtonGroup();
+		    group.add(notStarted);
+		    group.add(inProgress);
+		    group.add(completed);
+
+		    JPanel panel = new JPanel();
+		    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		    panel.add(new JLabel("請選擇維修狀態："));
+		    panel.add(notStarted);
+		    panel.add(inProgress);
+		    panel.add(completed);
+
+		    int result = JOptionPane.showConfirmDialog(this, panel, "回報進度", JOptionPane.OK_CANCEL_OPTION);
+
+		    if (result == JOptionPane.OK_OPTION) {
+		        String status = null;
+		        if (notStarted.isSelected()) {
+		            status = "尚未維修";
+		        } else if (inProgress.isSelected()) {
+		            status = "維修中";
+		        } else if (completed.isSelected()) {
+		            status = "維修完成";
+		        }
+
+		        if (status != null) {
+		            try (Connection conn = DriverManager.getConnection(url, user, password)) {
+		                String sql = """
+		                    UPDATE reports 
+		                    SET status = ?
+		                    WHERE id = (
+		                        SELECT report_id 
+		                        FROM accepted_cases 
+		                        WHERE DATE(accepted_at) = ?
+		                        LIMIT 1
+		                    )
+		                """;
+		                PreparedStatement stmt = conn.prepareStatement(sql);
+		                stmt.setString(1, status);
+		                stmt.setDate(2, java.sql.Date.valueOf(date));
+		                int rows = stmt.executeUpdate();
+
+		                if (rows > 0) {
+		                    JOptionPane.showMessageDialog(this, "進度已更新為：" + status);
+		                } else {
+		                    JOptionPane.showMessageDialog(this, "找不到案件或更新失敗。");
+		                }
+		            } catch (SQLException e) {
+		                e.printStackTrace();
+		                JOptionPane.showMessageDialog(this, "資料庫錯誤：" + e.getMessage());
+		            }
+		        }
+		    }
+		}
+	}

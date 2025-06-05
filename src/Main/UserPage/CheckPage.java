@@ -34,7 +34,7 @@ public class CheckPage extends JPanel {
 
         // ===== 標題 =====
         JLabel titleLabel = new JLabel("查詢維修進度");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 40));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT); // 置中
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20))); // 標題下方留白
@@ -121,7 +121,7 @@ public class CheckPage extends JPanel {
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             // 建立 SQL 查詢
-            String query = "SELECT * FROM reports WHERE id = ?";
+        	String query = "SELECT id, description_situation, description_place, created_at, status FROM reports WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, reportId);
 
@@ -132,6 +132,7 @@ public class CheckPage extends JPanel {
                 String description_situation = rs.getString("description_situation");
                 String description_place = rs.getString("description_place");
                 String created_at = rs.getString("created_at");
+                String status = rs.getString("status");
 
                 // 更新查詢次數
                 PreparedStatement updateStmt = conn.prepareStatement(
@@ -139,11 +140,11 @@ public class CheckPage extends JPanel {
                 updateStmt.setString(1, reportId);
                 updateStmt.executeUpdate();
 
-                result = "Report ID: " + reportId + "\n" +
-                        "ID: " + id + "\n" +
-                        "Description_Situation: " + description_situation + "\n" +
-                        "Description_Place: " + description_place + "\n" +
-                        "Created_At: " + created_at + "\n";
+                result = "回報 ID: " + reportId + "\n" +
+                        "狀況描述: " + description_situation + "\n" +
+                        "地點描述: " + description_place + "\n" +
+                        "回報時間: " + created_at + "\n"+
+                        "維修進度: " + (status != null ? status : "尚未設定") + "\n";
 
                 // 更新熱門查詢
                 UserPage.updateTopQueriedReports();

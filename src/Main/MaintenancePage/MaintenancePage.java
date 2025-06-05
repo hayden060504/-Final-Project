@@ -38,7 +38,7 @@ public class MaintenancePage extends JFrame{
 			maintenancePanel.setLayout(new BorderLayout());
 			//上方的title
 			JLabel titleLabel = new JLabel("維修頁面", SwingConstants.CENTER);
-			titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+			titleLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 40));
 			titleLabel.setOpaque(true);
 			titleLabel.setBackground(new Color(255, 204, 204));
 			maintenancePanel.add(titleLabel, BorderLayout.NORTH);
@@ -69,8 +69,7 @@ public class MaintenancePage extends JFrame{
 		// 設定切換畫面
 		repairButton.addActionListener(e -> {
 			cardLayout.show(mainPanel, "SchedulePage");
-			setTitle("SchedulePage");
-		}); // 設置title
+		});
 		systemButton.addActionListener(e -> cardLayout.show(mainPanel, "MaintenanceAcceptPage"));
 		qaButton.addActionListener(e -> cardLayout.show(mainPanel, "QAPageForMaintenance"));
 		announceButton.addActionListener(e -> cardLayout.show(mainPanel, "AnnouncePage"));
