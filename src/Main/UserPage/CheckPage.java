@@ -144,7 +144,7 @@ public class CheckPage extends JPanel {
                         "狀況描述: " + description_situation + "\n" +
                         "地點描述: " + description_place + "\n" +
                         "回報時間: " + created_at + "\n"+
-                        "維修進度: " + (status != null ? status : "尚未設定") + "\n";
+                        "維修進度: " + status + "\n";
 
                 // 更新熱門查詢
                 UserPage.updateTopQueriedReports();

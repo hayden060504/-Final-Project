@@ -139,7 +139,7 @@ public class UserPage{
         	    "-fx-background-radius: 8; " +
         	    "-fx-background-color: #" +
         	    JavaFxFontTransfer.toHex(JavaFxFontTransfer.convertAwtColorToJavaFX(backColor)) + ";");
-        Label progressLabel = new Label("<常見報修>");
+        Label progressLabel = new Label("<熱門進度查詢>");
         progressLabel.setFont(JavaFxFontTransfer.convertAwtFontToJavaFX(titleFont));
         
         progressBoxContent = new VBox(10); 
@@ -168,7 +168,7 @@ public class UserPage{
         rightPanel.setMaxWidth(Double.MAX_VALUE);
 
         Button reportBtn = new Button("我要報修");
-        Button checkBtn = new Button("歷史紀錄");
+        Button checkBtn = new Button("進度查詢");
         Button QABtn = new Button("Q&A");
 
         for (Button btn : new Button[]{reportBtn, checkBtn, QABtn}) {
